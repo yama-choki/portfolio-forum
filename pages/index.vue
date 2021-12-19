@@ -2,18 +2,7 @@
   <v-app>
     <body>
       <header>
-        <v-app-bar
-          color="#00CCCC"
-          dark
-          max-width="1263px"
-          app
-        >
-          <v-toolbar-title>
-            Port
-          </v-toolbar-title>
-
-          <v-spacer />
-        </v-app-bar>
+        <Header />
       </header>
       <section id="container">
         <main></main>
