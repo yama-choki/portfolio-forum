@@ -43,6 +43,14 @@ export default {
       loginDialog: false
     }
   },
+  methods: {
+    loginTwitter () {
+      console.log('Twitter login')
+      this.$store.dispatch('loginTwitter')
+      this.loginDialog = false
+      console.log('Twitter login2')
+    },
+  }
 };
 </script>
 
