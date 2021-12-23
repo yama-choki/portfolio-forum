@@ -13,6 +13,7 @@
       <v-spacer />
         <Login />
         <AddPost />
+        <!-- <AddPost v-if="$store.state.userName" /> あとでこっちにする-->
     </v-app-bar>
   </div>
 </template>
