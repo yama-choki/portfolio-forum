@@ -1,17 +1,8 @@
 <template>
   <div id="addPost">
-    <v-dialog
-      v-model="postDialog"
-      persistent
-      max-width="600px"
-    >
+    <v-dialog v-model="postDialog" persistent max-width="600px">
       <template #activator="{ on, attrs }">
-        <v-btn
-          icon
-          dark
-          v-bind="attrs"
-          v-on="on"
-        >
+        <v-btn icon dark v-bind="attrs" v-on="on">
           <v-icon>mdi-pencil-plus</v-icon>
         </v-btn>
       </template>
@@ -19,18 +10,14 @@
         <form>
           <v-card-actions>
             <v-spacer />
-            <v-btn
-              color="blue darken-1"
-              text
-              @click="postDialog = false"
-            >
+            <v-btn color="blue darken-1" text @click="postDialog = false">
               キャンセル
             </v-btn>
             <button>
               <v-btn
                 color="blue darken-1"
                 text
-                @click="postDialog = false, add()"
+                @click.prevent="(postDialog = false), submitPost()"
               >
                 投稿する
               </v-btn>
@@ -39,11 +26,7 @@
           <v-card-text>
             <v-container>
               <v-row>
-                <v-col
-                  cols="12"
-                  sm="12"
-                  md="12"
-                >
+                <v-col cols="12" sm="12" md="12">
                   <v-textarea
                     v-model="post.text"
                     label="ポートフォリオの説明"
@@ -51,28 +34,22 @@
                     counter="200"
                   />
                 </v-col>
-                <v-col
-                  cols="12"
-                  sm="12"
-                  md="12"
-                >
-                  <v-text-field
-                    v-model="post.portfolioUrl"
-                    label="ポートフォリオ"
-                    hint="URLを添付してください"
-                    persistent-hint
-                  />
-                </v-col>
-                <v-col
-                  cols="12"
-                  sm="12"
-                >
+                <v-col cols="12" sm="12">
                   <v-select
                     v-model="post.category"
-                    :items="['Webアプリ', 'Webデザイン','動画編集', 'イラスト', 'その他']"
+                    :items="[
+                      'Webアプリ',
+                      'Webデザイン',
+                      '動画編集',
+                      'イラスト',
+                      'その他',
+                    ]"
                     label="ポートフォリオの種類"
                     required
                   />
+                </v-col>
+                <v-col cols="12" sm="12" md="12">
+                  <v-text-field  v-model="post.portfolioURL" label="ポートフォリオのURL"></v-text-field>
                 </v-col>
               </v-row>
             </v-container>
@@ -85,22 +62,27 @@
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       postDialog: false,
       post: {
-        text: '',
-        portfolioUrl: '',
-        snsAccount: '',
-        category: '',
-        created: '',
-        user: ''
+        text: "",
+        portfolioURL: "",
+        category: "",
+        created: "",
+        user: {},
+      },
+    };
+  },
+  methods: {
+    submitPost() {
+      if (this.post) {
+        this.post.user = this.$store.state.user
+        this.$store.dispatch("submitPost", this.post);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -5,7 +5,9 @@
         <Header />
       </header>
       <section id="container">
-        <main></main>
+        <main>
+          {{$store.state}}
+        </main>
       </section>      
     </body>
   </v-app>

@@ -1,8 +1,11 @@
 import firebase from '~/plugins/firebase'
 
+const db = firebase.firestore();
+const postsRef = db.collection("posts");
+
 export const state = () => ({
   user: { userUid: '', userName: '', userPhotoURL: '' },  
-  post: {}
+  posts: []
 })
 
 export const actions = {
@@ -19,6 +22,41 @@ export const actions = {
       console.log('error : ' + errorCode)
     })
   },
+  getPosts({ commit }) {
+    postsRef.get().then((res) => {
+      const posts = [];
+      res.forEach((post) => {
+        const data = post.data();
+        posts.push({
+          text: data.text,
+          portfolioURL: data.portfolioURL,
+          category: data.category,
+          postUser: data.postUser,
+          created: data.created,
+          id: post.id,
+        });
+      });
+      console.log(posts);
+      commit("getPosts", posts);
+    });
+  },
+  submitPost({ dispatch }, post) {
+    console.log('actions submitPost')
+    console.log(post);
+    postsRef
+      .add({
+        text: post.text,
+        portfolioURL: post.portfolioURL,
+        category: post.category,
+        created: firebase.firestore.FieldValue.serverTimestamp(),
+        postUser: post.user
+      })
+      .then(() => {
+        console.log('actions submitPost .then')
+        console.log(this.post);
+        dispatch("getPosts");
+      });
+  },
 };
 
 export const mutations = {
@@ -31,5 +69,8 @@ export const mutations = {
   setUserPhotoURL(state, photoURL){
     state.user.userPhotoURL = photoURL
     console.log(state.user.userPhotoURL)
-  }
+  },
+  getPosts(state, posts) {
+    state.posts = posts;
+  },
 }
