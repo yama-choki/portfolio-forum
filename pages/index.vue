@@ -6,7 +6,7 @@
       </header>
       <section id="container">
         <main>
-          {{$store.state}}
+          <Posts />
         </main>
       </section>      
     </body>

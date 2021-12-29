@@ -48,7 +48,6 @@ export default {
       console.log('Twitter login')
       this.$store.dispatch('loginTwitter')
       this.loginDialog = false
-      console.log('Twitter login2')
     },
   }
 };
