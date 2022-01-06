@@ -1,16 +1,18 @@
 <template>
-  <v-app>
-    <body>
-      <header>
-        <Header />
-      </header>
-      <section id="container">
-        <main>
-          <Posts />
-        </main>
-      </section>      
-    </body>
-  </v-app>
+  <body>
+    <section id="index">
+      <v-app>
+        <header>
+          <Header />
+        </header>
+        <section id="container">
+          <main>
+            <Posts />
+          </main>
+        </section>      
+      </v-app>
+    </section>
+  </body>
 </template>
 
 <script>
@@ -18,7 +20,7 @@ export default {}
 </script>
 
 <style scoped>
-body{
+#index{
   max-width: 1263px;
   margin: 0 auto;
 }

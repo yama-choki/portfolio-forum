@@ -47,8 +47,7 @@ export const actions = {
   submitPost({ dispatch }, post) {
     console.log('actions submitPost')
     console.log(post);
-    postsRef
-      .add({
+    postsRef.add({
         text: post.text,
         portfolioURL: post.portfolioURL,
         category: post.category,
