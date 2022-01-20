@@ -47,18 +47,33 @@ export const actions = {
   submitPost({ dispatch }, post) {
     console.log('actions submitPost')
     console.log(post);
-    postsRef.add({
+    const content = []
+    fetch(post.portfolioURL).then(res => res.text()).then(text => {
+      const el = new DOMParser().parseFromString(text, "text/html")
+      const headEls = (el.head.children)
+      Array.from(headEls).map(v => {
+          const prop = v.getAttribute('property')
+          if (!prop) return;
+          console.log(prop, v.getAttribute("content"))
+          content.push( v.getAttribute("content"))
+      })
+      console.log(content)
+  }).then(() => {
+      postsRef.add({
         text: post.text,
         portfolioURL: post.portfolioURL,
         category: post.category,
         created: firebase.firestore.FieldValue.serverTimestamp(),
-        postUser: post.user
+        postUser: post.user,
+        OGPImage:content[2],
+        OGPTitle:content[0]
       })
       .then(() => {
         console.log('actions submitPost .then')
         console.log(this.post);
         dispatch("getPosts");
       });
+    })   
   },
 };
 
