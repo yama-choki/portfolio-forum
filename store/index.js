@@ -21,6 +21,8 @@ export const actions = {
           postUser: data.postUser,
           created: data.created,
           id: post.id,
+          OGPImage:data.OGPImage,
+          OGPTitle:data.OGPTitle
         });
       });
       console.log(posts);
@@ -66,7 +68,7 @@ export const actions = {
         created: firebase.firestore.FieldValue.serverTimestamp(),
         postUser: post.user,
         OGPImage:content[2],
-        OGPTitle:content[0]
+        OGPTitle:content[1]
       })
       .then(() => {
         console.log('actions submitPost .then')

@@ -2,53 +2,45 @@
   <div id="posts">
     <ul>
       <li v-for="post in posts" :key="post.id">
-         <!-- <v-card
-          class="mx-2"
-          max-width="600"
-          outlined
+        <v-col
+          cols="12"
+          xs="12"
+          sm="12"
+          md="12"
         >
-          <v-list-item three-line>
-            <v-list-item-content>
-              <div class="postTop">
-                <p>{{ post.category }}</p>
-                <p>{{ post.created.toDate() | dateFilter}}</p>
+          <v-card
+            class=""
+            max-width="600"
+            outlined            
+          >          
+            <div class="postTop ma-2">
+              <p>{{ post.category }}</p>
+              <p>{{ post.created.toDate() | dateFilter}}</p>
+            </div>
+            <div class="postMain">
+              <div class="postLeft">
+                <img :src="post.postUser.userPhotoURL" alt="" class="userIcon"
+                >
               </div>
-              <v-list-item-title class="text-h6 mb-1">
-                <div class="postUser">
-                  <a :href="post.postUser.twitterUrl">
-                    <img :src="post.postUser.userPhotoURL" alt="">
-                    <p>{{ post.postUser.userName }}</p>
+              <div class="postCenter">
+                <a :href="post.postUser.twitterUrl"> 
+                  <p class="userName">{{ post.postUser.userName }}</p>
+                </a>
+                <p class="postText">{{ post.text }}</p>
+                <div class="link mb-4">
+                  <a :href="post.portfolioURL">
+                    <img :src="post.OGPImage" alt="">
+                    <div class="linkInfo">
+                      <p class="portfolioUrl">{{ post.portfolioURL }}</p>
+                      <p class="OGPTitle">{{ post.OGPTitle }}</p>
+                    </div>
                   </a>
                 </div>
-              </v-list-item-title>
-              <v-list-item-subtitle>{{ post.text }}</v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-card-actions>
-            <v-btn
-              outlined
-              rounded
-              text
-            >
-              Button
-            </v-btn>
-          </v-card-actions>
-        </v-card> -->
-        <div class="post">
-          <div class="postTop">
-            <p>{{ post.category }}</p>
-            <p>{{ post.created.toDate() | dateFilter }}</p>
-          </div>
-          <div class="postUser">
-            <a :href="post.postUser.twitterUrl">
-              <div><img :src="post.postUser.userPhotoURL" alt=""></div>
-              <div class="userName">{{ post.postUser.userName }}</div>
-            </a>
-          </div>
-          <div class="text">{{ post.text }}</div>
-          <div class="link"></div>
-        </div>
+              </div>
+              <!-- <div class="postRight"></div> -->
+            </div>
+          </v-card>
+        </v-col>
       </li>
     </ul>
   </div>
@@ -96,12 +88,6 @@ export default {
   width: 100%;
 }
 
-.post{
-  border: solid 1px #bbbbbb;
-  border-radius: 4px;
-  padding: 8px;
-}
-
 .postTop{
   display: flex;
   justify-content: space-between;
@@ -113,28 +99,56 @@ export default {
   margin-bottom: 8px;
 }
 
-.postUser{
+.postMain {
   display: flex;
-  height: 36px;
 }
 
-.postUser a{
-  text-decoration: none;
-  display: flex;
-  width: 100%;
+.postLeft{
 }
 
-.postUser img{
-  width: 36px;
-  height: 36px;
+.userIcon {
   border-radius: 50%;
-  border: solid #00CCCC 2px;
+  border: 2px #00CCCC solid;
+  width: 44px;
 }
-.postUser p{
-  font-size: 16px;
-  height: 36px;
-  margin: 0 4px;
-  justify-content: wrap;
-  display: inline-block;
+
+.postCenter{
+}
+
+.postMain {
+  margin-right: 16px;
+}
+.postMain a {
+  text-decoration: none black;
+}
+
+.userName{
+  font-size: 15px;
+  font-weight: bold;
+  color: black;
+}
+
+.postText {
+  font-size: 15px;
+}
+
+.link {
+  border: solid 1px #333;
+  border-radius: 16px;
+}
+
+.link img {
+  border-radius:  16px 16px 0 0;
+  width: 100%;
+  min-width: 250px;
+}
+
+.linkInfo{
+  border-radius: 0 0 16px 16px;
+  background-color: #fff;
+}
+
+.postRight{
+  background-color: pink;
 }
 </style>
