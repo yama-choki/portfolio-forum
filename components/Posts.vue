@@ -2,12 +2,7 @@
   <div id="posts">
     <ul>
       <li v-for="post in posts" :key="post.id">
-        <v-col
-          cols="12"
-          xs="12"
-          sm="12"
-          md="12"
-        >
+        <v-col>
           <v-card
             class=""
             max-width="600"
@@ -133,7 +128,7 @@ export default {
 }
 
 .link {
-  border: solid 1px #333;
+  border: solid 1px rgb(128, 128, 128);
   border-radius: 16px;
 }
 
@@ -141,6 +136,7 @@ export default {
   border-radius:  16px 16px 0 0;
   width: 100%;
   min-width: 250px;
+  border-bottom: solid 1px rgb(128, 128, 128);
 }
 
 .linkInfo{

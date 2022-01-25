@@ -49,7 +49,8 @@ export const actions = {
   submitPost({ dispatch }, post) {
     console.log('actions submitPost')
     console.log(post);
-    const content = []
+    let OGPImage = ''
+    let OGPTitle = ''
     fetch(post.portfolioURL).then(res => res.text()).then(text => {
       const el = new DOMParser().parseFromString(text, "text/html")
       const headEls = (el.head.children)
@@ -57,9 +58,12 @@ export const actions = {
           const prop = v.getAttribute('property')
           if (!prop) return;
           console.log(prop, v.getAttribute("content"))
-          content.push( v.getAttribute("content"))
+          if (prop === 'og:title') {
+            OGPTitle = v.getAttribute("content")
+          } else if (prop === 'og:image') {
+            OGPImage = v.getAttribute("content")
+          }
       })
-      console.log(content)
   }).then(() => {
       postsRef.add({
         text: post.text,
@@ -67,8 +71,8 @@ export const actions = {
         category: post.category,
         created: firebase.firestore.FieldValue.serverTimestamp(),
         postUser: post.user,
-        OGPImage:content[2],
-        OGPTitle:content[1]
+        OGPImage: OGPImage,
+        OGPTitle: OGPTitle
       })
       .then(() => {
         console.log('actions submitPost .then')
