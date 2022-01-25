@@ -4,7 +4,7 @@
       <v-dialog v-model="loginDialog" width="500">
         <template #activator="{ on, attrs }">
           <v-btn dark v-bind="attrs" icon v-on="on">
-            <v-icon>mdi-pencil-plus</v-icon>
+            <v-icon>mdi-login</v-icon>
           </v-btn>
         </template>
 
