@@ -10,7 +10,7 @@ export const state = () => ({
 
 export const actions = {
   getPosts({ commit }) {
-    postsRef.get().then((res) => {
+    postsRef.orderBy('created', 'desc').get().then((res) => {
       const posts = [];
       res.forEach((post) => {
         const data = post.data();
