@@ -5,14 +5,16 @@
     max-width="1263px"
     app
   >
-    <v-toolbar-title>
+    <v-toolbar-title v-if="$store.state.user.userPhotoURL">
+      <img :src="$store.state.user.userPhotoURL" class="userIcon mt-2">
+    </v-toolbar-title>
+    <v-toolbar-title class="ml-4">
       Port
     </v-toolbar-title>
 
     <v-spacer />
-      <Login />
-      <AddPost />
-      <!-- <AddPost v-if="$store.state.userName" /> あとでこっちにする-->
+      <AddPost v-if ="$store.state.user.userName.length" /> 
+      <Login v-else />
   </v-app-bar>
 </template>
 
@@ -29,5 +31,9 @@ export default {
   justify-content: center;
   align-items: center;
   text-align: center;
+}
+
+.userIcon{
+  border-radius: 50%;
 }
 </style>
