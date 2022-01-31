@@ -33,6 +33,6 @@ header{
 
 #container{
   margin-top: 64px;
-  display:flex
+  display: flex;
 }
 </style>

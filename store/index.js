@@ -81,6 +81,10 @@ export const actions = {
       });
     })   
   },
+  deletePost({ dispatch }, id) {
+    postsRef.doc(id).delete()
+    dispatch('getPosts')
+  }
 };
 
 export const mutations = {

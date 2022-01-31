@@ -1,7 +1,7 @@
 <template>
   <div id="posts">
     <ul>
-      <li v-for="post in posts" :key="post.id">
+      <li v-for="(post, index) in posts" :key="post.id">
         <v-col>
           <v-card
             class=""
@@ -34,6 +34,20 @@
               </div>
               <!-- <div class="postRight"></div> -->
             </div>
+            <div class="postBottom">
+              <div class="like">
+                <v-btn icon color="pink">
+                  <v-icon>mdi-heart</v-icon>
+                </v-btn>
+                <v-btn icon>
+                  <v-icon>mdi-heart-outline</v-icon>
+                </v-btn>
+                <span>124</span>
+              </div>
+              <v-btn icon @click="deletePost(index)" v-if="$store.state.user.userUid === post.postUser.userUid || 'pQWzqlm24LSvNVglIxyBSx4ObNk1'">
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </div>
           </v-card>
         </v-col>
       </li>
@@ -61,6 +75,11 @@ export default {
     getPosts() {
       this.$store.dispatch("getPosts");
     },
+    deletePost(index){
+      this.$store.dispatch('deletePost', this.posts[index].id)
+      console.log(this.posts[index].id)
+      console.log(index)
+    }
   }
 }
 </script>
@@ -78,19 +97,14 @@ export default {
   padding: 0;
 }
 
-#posts ul li{
-  margin-bottom: 18px;
-  width: 100%;
-}
-
 .postTop{
   display: flex;
   justify-content: space-between;
 }
 
 .postTop p{
-  line-height: 14px;
-  font-size: 14px;
+  line-height: 16px;
+  font-size: 16px;
   margin-bottom: 8px;
 }
 
@@ -98,16 +112,10 @@ export default {
   display: flex;
 }
 
-.postLeft{
-}
-
 .userIcon {
   border-radius: 50%;
   border: 2px #00CCCC solid;
   width: 44px;
-}
-
-.postCenter{
 }
 
 .postMain {
