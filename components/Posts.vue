@@ -36,13 +36,13 @@
             </div>
             <div class="postBottom">
               <div class="like">
-                <v-btn icon color="pink">
+                <v-btn icon color="pink" @click="goodPost(index)">
                   <v-icon>mdi-heart</v-icon>
                 </v-btn>
-                <v-btn icon>
+                <v-btn icon @click="goodPost(index)">
                   <v-icon>mdi-heart-outline</v-icon>
                 </v-btn>
-                <span>124</span>
+                <span>{{post.good.length}}</span>
               </div>
               <v-btn icon @click="deletePost(index)" v-if="$store.state.user.userUid === post.postUser.userUid || 'pQWzqlm24LSvNVglIxyBSx4ObNk1'">
                 <v-icon>mdi-delete</v-icon>
@@ -52,6 +52,9 @@
         </v-col>
       </li>
     </ul>
+    <p>{{ $store.state.user }}</p>
+    <hr>
+    <p>{{ $store.state.posts[0]}}</p>
   </div>
 </template>
 
@@ -79,6 +82,10 @@ export default {
       this.$store.dispatch('deletePost', this.posts[index].id)
       console.log(this.posts[index].id)
       console.log(index)
+    },
+    goodPost (index) {
+      console.log('good')
+      this.$store.dispatch('goodPost', index)
     }
   }
 }

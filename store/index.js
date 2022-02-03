@@ -15,6 +15,7 @@ export const actions = {
       res.forEach((post) => {
         const data = post.data();
         posts.push({
+          good: data.good,
           text: data.text,
           portfolioURL: data.portfolioURL,
           category: data.category,
@@ -22,7 +23,7 @@ export const actions = {
           created: data.created,
           id: post.id,
           OGPImage:data.OGPImage,
-          OGPTitle:data.OGPTitle
+          OGPTitle:data.OGPTitle,
         });
       });
       console.log(posts);
@@ -72,7 +73,8 @@ export const actions = {
         created: firebase.firestore.FieldValue.serverTimestamp(),
         postUser: post.user,
         OGPImage: OGPImage,
-        OGPTitle: OGPTitle
+        OGPTitle: OGPTitle,
+        good: []
       })
       .then(() => {
         console.log('actions submitPost .then')
@@ -84,6 +86,27 @@ export const actions = {
   deletePost({ dispatch }, id) {
     postsRef.doc(id).delete()
     dispatch('getPosts')
+  },
+  goodPost( {state, dispatch}, index){
+    const post = state.posts[index]
+    const updatedGood = post.good.slice()
+    const id = post.id
+    const userUid = state.user.userUid
+    console.log(updatedGood)
+    if(updatedGood.includes(userUid)){
+      console.log('true  IDあり good取り消し')
+      const updatedGoodIndex = updatedGood.indexOf(userUid)
+      updatedGood.splice(updatedGoodIndex, 1)
+      console.log('結果:' + updatedGood)
+    } else {
+      console.log('false  IDなし goodする')
+      updatedGood.push(userUid)
+      console.log('結果:' + updatedGood)
+    }
+    postsRef.doc(id).update({
+      good : updatedGood
+    })
+    dispatch("getPosts")
   }
 };
 
@@ -106,6 +129,7 @@ export const mutations = {
   getPosts(state, posts) {
     state.posts = posts;
   },
+  goodPost(state, posts){}
 }
 
 export const getters = {
