@@ -105,8 +105,9 @@ export const actions = {
     }
     postsRef.doc(id).update({
       good : updatedGood
+    }).then(() =>{
+      dispatch("getPosts")
     })
-    dispatch("getPosts")
   }
 };
 

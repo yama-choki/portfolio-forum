@@ -34,19 +34,22 @@
               </div>
               <!-- <div class="postRight"></div> -->
             </div>
-            <div class="postBottom">
+            <div class="postBottom" v-if="$store.state.user.userUid">
+              <v-spacer />
               <div class="like">
-                <v-btn icon color="pink" @click="goodPost(index)">
+                <v-btn icon color="pink" @click="goodPost(index)" v-if="post.good.includes($store.state.user.userUid)">
                   <v-icon>mdi-heart</v-icon>
                 </v-btn>
-                <v-btn icon @click="goodPost(index)">
+                <v-btn icon @click="goodPost(index)" v-else>
                   <v-icon>mdi-heart-outline</v-icon>
                 </v-btn>
                 <span>{{post.good.length}}</span>
               </div>
-              <v-btn icon @click="deletePost(index)" v-if="$store.state.user.userUid === post.postUser.userUid || 'pQWzqlm24LSvNVglIxyBSx4ObNk1'">
+              <v-spacer />
+              <v-btn icon @click="deletePost(index)" v-if="$store.state.user.userUid === post.postUser.userUid ">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
+              <v-spacer v-if="$store.state.user.userUid === post.postUser.userUid"/>
             </div>
           </v-card>
         </v-col>
@@ -159,7 +162,8 @@ export default {
   background-color: #fff;
 }
 
-.postRight{
-  background-color: pink;
+.postBottom{
+  display: flex;
 }
+
 </style>
