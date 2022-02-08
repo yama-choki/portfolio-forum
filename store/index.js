@@ -1,17 +1,25 @@
 import firebase from '~/plugins/firebase'
 
+
 const db = firebase.firestore();
 const postsRef = db.collection("posts");
 
 export const state = () => ({
   user: { userUid: '', userName: '', userPhotoURL: '', twitterUrl: ''},  
-  posts: []
+  posts: [],
+  lastVisible: {},
+  start: 0,
+  end: 20,
+  count: 4
 })
 
 export const actions = {
   getPosts({ commit }) {
-    postsRef.orderBy('created', 'desc').get().then((res) => {
+    postsRef.orderBy('created', 'desc').limit(2).get().then((res) => {
       const posts = [];
+      const lastVisible = res.docs[res.docs.length-1];
+      commit('setLastVisible', lastVisible)
+      console.log("last", lastVisible);
       res.forEach((post) => {
         const data = post.data();
         posts.push({
@@ -28,6 +36,29 @@ export const actions = {
       });
       console.log(posts);
       commit("getPosts", posts);
+    });
+  },
+  getNextPosts({ state, commit }) {
+    postsRef.orderBy('created', 'desc').startAfter(state.lastVisible).limit(2).get().then((res) => {
+      const posts = [];
+      const lastVisible = res.docs[res.docs.length-1];
+      console.log("last", lastVisible);
+      res.forEach((post) => {
+        const data = post.data();
+        posts.push({
+          good: data.good,
+          text: data.text,
+          portfolioURL: data.portfolioURL,
+          category: data.category,
+          postUser: data.postUser,
+          created: data.created,
+          id: post.id,
+          OGPImage:data.OGPImage,
+          OGPTitle:data.OGPTitle,
+        });
+      });
+      console.log(posts);
+      // commit("getNextPosts", posts);
     });
   },
   loginTwitter ({ commit }) {
@@ -127,10 +158,15 @@ export const mutations = {
     state.user.userPhotoURL = photoURL
     console.log(state.user.userPhotoURL)
   },
+  setLastVisible(state, lastVisible){
+    state.lastVisible = lastVisible
+  },
   getPosts(state, posts) {
     state.posts = posts;
   },
-  goodPost(state, posts){}
+  getNextPosts(state, posts) {
+    state.posts = state.posts.concat(posts)
+  },
 }
 
 export const getters = {

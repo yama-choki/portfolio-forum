@@ -58,6 +58,12 @@
     <p>{{ $store.state.user }}</p>
     <hr>
     <p>{{ $store.state.posts[0]}}</p>
+    <infinite-loading 
+      ref="infiniteLoading" 
+      spinner="spiral"
+      @infinite="infiniteHandler">
+      <div slot="no-results"/>
+    </infinite-loading>
   </div>
 </template>
 
@@ -89,6 +95,9 @@ export default {
     goodPost (index) {
       console.log('good')
       this.$store.dispatch('goodPost', index)
+    },
+    infiniteHandler() {
+      
     }
   }
 }
@@ -154,6 +163,7 @@ export default {
   border-radius:  16px 16px 0 0;
   width: 100%;
   min-width: 250px;
+  max-height: 300px;
   border-bottom: solid 1px rgb(128, 128, 128);
 }
 
