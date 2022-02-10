@@ -57,7 +57,8 @@
     </ul>
     <p>{{ $store.state.user }}</p>
     <hr>
-    <p>{{ $store.state.posts[0]}}</p>
+    <p>{{ $store.state.posts.length}}</p>
+    <p>{{ $store.state.lastPost }}</p>
     <infinite-loading 
       ref="infiniteLoading" 
       spinner="spiral"
@@ -70,6 +71,11 @@
 <script>
 import moment from 'moment'
 export default {
+  data () {
+    return {
+      end: 2,
+    }
+  },
   async created () {
     await this.getPosts()
   },
@@ -96,8 +102,16 @@ export default {
       console.log('good')
       this.$store.dispatch('goodPost', index)
     },
-    infiniteHandler() {
-      
+    infiniteHandler($state) {
+      this.$store.dispatch('getNextPosts')
+      // if (this.end > this.posts.length) {
+      //   // 表示するデータが無くなった場合
+      //   $state.complete()
+      // } else {
+      //   // 表示するデータがある場合
+      //   this.$store.dispatch('getNextPosts')
+      //   $state.loaded()
+      // }
     }
   }
 }

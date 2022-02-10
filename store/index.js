@@ -7,19 +7,16 @@ const postsRef = db.collection("posts");
 export const state = () => ({
   user: { userUid: '', userName: '', userPhotoURL: '', twitterUrl: ''},  
   posts: [],
-  lastVisible: {},
-  start: 0,
-  end: 20,
-  count: 4
+  lastPost: {},
 })
 
 export const actions = {
   getPosts({ commit }) {
     postsRef.orderBy('created', 'desc').limit(2).get().then((res) => {
       const posts = [];
-      const lastVisible = res.docs[res.docs.length-1];
-      commit('setLastVisible', lastVisible)
-      console.log("last", lastVisible);
+      const lastPost = res.docs[res.docs.length-1].data();
+      commit('setLastPost', lastPost)
+      // console.log("last", lastPost);
       res.forEach((post) => {
         const data = post.data();
         posts.push({
@@ -39,10 +36,10 @@ export const actions = {
     });
   },
   getNextPosts({ state, commit }) {
-    postsRef.orderBy('created', 'desc').startAfter(state.lastVisible).limit(2).get().then((res) => {
+    postsRef.orderBy('created', 'desc').startAfter(state.lastPost).limit(2).get().then((res) => {
       const posts = [];
-      const lastVisible = res.docs[res.docs.length-1];
-      console.log("last", lastVisible);
+      const lastPost = res.docs[res.docs.length-1].data().created;
+      commit('setLastPost', lastPost)
       res.forEach((post) => {
         const data = post.data();
         posts.push({
@@ -58,7 +55,7 @@ export const actions = {
         });
       });
       console.log(posts);
-      // commit("getNextPosts", posts);
+      commit("getNextPosts", posts);
     });
   },
   loginTwitter ({ commit }) {
@@ -158,8 +155,8 @@ export const mutations = {
     state.user.userPhotoURL = photoURL
     console.log(state.user.userPhotoURL)
   },
-  setLastVisible(state, lastVisible){
-    state.lastVisible = lastVisible
+  setLastPost(state, lastPost){
+    state.lastPost = lastPost
   },
   getPosts(state, posts) {
     state.posts = posts;
