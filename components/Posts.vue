@@ -18,7 +18,7 @@
                 >
               </div>
               <div class="postCenter">
-                <a :href="post.postUser.twitterUrl"> 
+                <a :href="post.postUser.snsUrl"> 
                   <p class="userName">{{ post.postUser.userName }}</p>
                 </a>
                 <p class="postText">{{ post.text }}</p>
@@ -154,6 +154,7 @@ export default {
   border-radius:  16px 16px 0 0;
   width: 100%;
   min-width: 250px;
+  max-height: 300px;
   border-bottom: solid 1px rgb(128, 128, 128);
 }
 

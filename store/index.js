@@ -2,9 +2,11 @@ import firebase from '~/plugins/firebase'
 
 const db = firebase.firestore();
 const postsRef = db.collection("posts");
+const usersRef = db.collection("users");
 
 export const state = () => ({
-  user: { userUid: '', userName: '', userPhotoURL: '', twitterUrl: ''},  
+  user: { userUid: '', userName: '', userPhotoURL: '', snsUrl: ''}, 
+  accountUser:{},
   posts: []
 })
 
@@ -30,6 +32,53 @@ export const actions = {
       commit("getPosts", posts);
     });
   },
+  emailEntry({ commit }, {email, password}){
+    console.log(email)
+    console.log(password)
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      const user = userCredential.user;
+      console.log(user)
+      commit('setUserUid', user.uid)
+      commit('setNewUserName')
+      commit('setNewUserIcon')
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.log('error code :' + errorCode)
+      console.log('error message :' + errorMessage)
+    });
+  },
+  loginEmail ({ commit }, {email, password}) {
+    firebase.auth().signInWithEmailAndPassword(email, password)
+  .then((userCredential) => {
+    const user = userCredential.user;
+    console.log(user)
+    commit('setUserUid', user.uid)
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log('error code :' + errorCode)
+    console.log('error message :' + errorMessage)
+  });
+  },
+  loginGoogle ({ commit }) {
+    console.log('Google login action')
+    const provider = new firebase.auth.GoogleAuthProvider()
+    firebase.auth().signInWithPopup(provider).then(function (result) {
+      const user = result.user
+      commit('setUserUid', user.uid)
+      commit('setUserName', user.displayName)
+      commit('setUserPhotoURL', user.providerData[0].photoURL)
+      console.log('Google login success : ' + user.uid + ' : ' + user.displayName)
+      console.log(user.providerData[0].photoURL)
+    }).catch(function (error) {
+      const errorCode = error.code
+      console.log('error : ' + errorCode)
+    })
+  },
   loginTwitter ({ commit }) {
     console.log('Twitter login action')
     const provider = new firebase.auth.TwitterAuthProvider()
@@ -40,13 +89,29 @@ export const actions = {
       commit('setUserName', user.displayName)
       commit('setUserPhotoURL', user.providerData[0].photoURL)
       commit('setTwitterUrl', twitterId)
-      console.log('Twitter login success')
+      console.log('Twitter login success:' + user.uid + ' : ' + user.displayName)
       console.log(user)
     }).catch(function (error) {
       const errorCode = error.code
       console.log('error : ' + errorCode)
     })
   },
+  // loginFacebook ({ commit }) {
+  //   console.log('Facebook login action')
+  //   const provider = new firebase.auth.FacebookAuthProvider()
+  //   firebase.auth().signInWithPopup(provider).then(function (result) {
+  //     const user = result.user
+  //     console.log(user)
+  //     commit('setUserUid', user.uid)
+  //     commit('setUserName', user.displayName)
+  //     // commit('setUserPhotoURL', user.providerData[0].photoURL)
+  //     console.log('Facebook login success : ' + user.uid + ' : ' + user.displayName)
+  //     console.log(user)
+  //   }).catch(function (error) {
+  //     const errorCode = error.code
+  //     console.log('error : ' + errorCode)
+  //   })
+  // },
   submitPost({ dispatch }, post) {
     console.log('actions submitPost')
     console.log(post);
@@ -118,7 +183,7 @@ export const mutations = {
   setTwitterUrl (state, twitterId) {
     const twitterUrl = 'https://twitter.com/' + twitterId
     console.log(twitterUrl)
-    state.user.twitterUrl = twitterUrl
+    state.user.snsUrl = twitterUrl
   },
   setUserName (state, userName) {
     state.user.userName = userName
@@ -130,7 +195,12 @@ export const mutations = {
   getPosts(state, posts) {
     state.posts = posts;
   },
-  goodPost(state, posts){}
+  setNewUserName(state){
+    state.user.userName = '新しいユーザー'
+  },
+  setNewUserIcon(state){
+    state.user.userPhotoURL = '../static/images/NoImage.png'
+  }
 }
 
 export const getters = {

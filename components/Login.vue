@@ -4,7 +4,7 @@
       <v-dialog v-model="loginDialog" width="500">
         <template #activator="{ on, attrs }">
           <v-btn dark v-bind="attrs" icon v-on="on">
-            <v-icon>mdi-pencil-plus</v-icon>
+            <v-icon>mdi-login</v-icon>
           </v-btn>
         </template>
 
@@ -12,14 +12,18 @@
           <v-card-title class="text-h5 grey lighten-2"> ログイン </v-card-title>
 
           <div class="container">
-            <!-- <p class="title is-1 is-spaced">user:{{ $store.getters['login/getLoginUser'] }}</p> -->
-            <!-- <button @click="loginGoogle()">
-            Google ログイン
-          </button> -->
-            <button @click="loginTwitter()">Twitter ログイン</button>
-            <!-- <button @click="loginFacebook()">
-            Facebook ログイン
-          </button> -->
+            <div>
+              <button @click="loginGoogle()">Google ログイン</button>
+              <button @click="loginTwitter()">Twitter ログイン</button>
+              <button @click="loginFacebook()">Facebook ログイン</button>
+            </div>
+            <div>
+              <v-text-field  v-model="email" label="Email Address" type="email"></v-text-field>
+              <v-text-field  v-model="password" label="Password" type="password"></v-text-field>
+              <button @click="emailEntry()">Email 新規登録</button>
+              <button @click="loginEmail()">Email ログイン</button>
+            </div>
+            
           </div>
 
           <v-divider />
@@ -40,13 +44,37 @@
 export default {
   data () {
     return {
-      loginDialog: false
+      loginDialog: false,
+      email:'',
+      password:''
     }
   },
   methods: {
+    emailEntry(){
+      console.log(this.email)
+      console.log(this.password)
+      console.log('Email Entry')
+      this.$store.dispatch('emailEntry', { email: this.email, password: this.password })
+      this.loginDialog = false
+    },
+    loginEmail(){
+      console.log('Email login')
+      this.$store.dispatch('loginEmail', { email: this.email, password: this.password })
+      this.loginDialog = false
+    },
+    loginGoogle () {
+      console.log('Google login')
+      this.$store.dispatch('loginGoogle')
+      this.loginDialog = false
+    },
     loginTwitter () {
       console.log('Twitter login')
       this.$store.dispatch('loginTwitter')
+      this.loginDialog = false
+    },
+    loginFacebook() {
+      console.log('Facebook login')
+      this.$store.dispatch('loginFacebook')
       this.loginDialog = false
     },
   }
@@ -56,5 +84,7 @@ export default {
 <style>
 .container{
   text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 </style>

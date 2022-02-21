@@ -2,7 +2,7 @@
   <v-app>
     <section>
       <h1>{{ message }}</h1>
-      <p></p>
+      <p>id: {{ this.$route.params.id }}</p>
     </section>
   </v-app>
 </template>
@@ -11,7 +11,7 @@
 export default {
   data () {
     return {
-      message: '_profile.vueを表示'
+      message: 'profile/_idを表示'
     }
   }
 }
