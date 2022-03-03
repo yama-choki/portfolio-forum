@@ -5,7 +5,7 @@ const postsRef = db.collection("posts");
 const usersRef = db.collection("users");
 
 export const state = () => ({
-  user: {}, 
+  user: {userUid: '', userName: '', snsUrl: ''}, 
   accountPageUser:{},
   posts: []
 })
@@ -64,22 +64,31 @@ export const actions = {
     console.log('error message :' + errorMessage)
   });
   },
-  loginGoogle ({ commit }) {
+  loginGoogle ({ dispatch }) {
     console.log('Google login action')
     const provider = new firebase.auth.GoogleAuthProvider()
-    firebase.auth().signInWithPopup(provider).then(function (result) {
+    firebase.auth().signInWithPopup(provider).then(async function (result) {
       const user = result.user
-      commit('setUserUid', user.uid)
-      commit('setUserName', user.displayName)
-      commit('setUserPhotoURL', user.providerData[0].photoURL)
-      console.log('Google login success : ' + user.uid + ' : ' + user.displayName)
+      const metadata = user.metadata
+      const userUid = user.uid
+      const snsAccount = ''
       console.log(user.providerData[0].photoURL)
+      console.log(metadata.creationTime)
+      console.log(metadata.lastSignInTime)
+      if(metadata.creationTime === metadata.lastSignInTime){
+        console.log('submitUser!!!!!!!!!!!!!!')
+        dispatch('submitUser', { user, snsAccount })
+        dispatch('getUser', userUid)
+      } else {
+        console.log('getUser!!!!!!!!!!!!!!')
+        await dispatch('getUser', userUid)
+      }
     }).catch(function (error) {
       const errorCode = error.code
       console.log('error : ' + errorCode)
     })
   },
-  loginTwitter ({ dispatch ,state }) {
+  loginTwitter ({ dispatch }) {
     console.log('Twitter login action')
     const provider = new firebase.auth.TwitterAuthProvider()
     firebase.auth().signInWithPopup(provider).then(function (result) {
@@ -121,6 +130,8 @@ export const actions = {
   // },
   submitUser({}, {user, snsAccount}){
     console.log('actions submitUser')
+    console.log(user)
+    console.log(snsAccount)
     usersRef.add({
       userUid: user.uid,
       userName: user.displayName,
@@ -131,6 +142,8 @@ export const actions = {
     })
   },
   getUser({commit}, userUid){
+    console.log('submitUser!!!!!!!!!!!!!!')
+    console.log(userUid)
     usersRef.where('userUid', '==', userUid).get().then((res) => {
       const loginUser = []
         res.forEach((x) => {
@@ -217,7 +230,9 @@ export const actions = {
 
 export const mutations = {
   setUserUid (state, userUid) {
+    console.log('確認　　　commit setUserUid', userUid)
     state.user.userUid = userUid
+    console.log(state.user.userUid)
   },
   setTwitterUrl (state, twitterId) {
     const twitterUrl = 'https://twitter.com/' + twitterId
@@ -228,7 +243,7 @@ export const mutations = {
     state.user.userName = userName
   },
   setUserPhotoURL(state, photoURL){
-    state.user.userPhotoURL = photoURL
+    state.user.userIcon = photoURL
     console.log(state.user.userPhotoURL)
   },
   getPosts(state, posts) {
