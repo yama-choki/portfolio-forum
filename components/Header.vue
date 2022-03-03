@@ -5,15 +5,15 @@
     max-width="1263px"
     app
   >
-    <v-toolbar-title v-if="$store.state.user.userPhotoURL">
-      <img :src="$store.state.user.userPhotoURL" class="userIcon mt-2">
+    <v-toolbar-title v-if="$store.state.user.userIcon">
+      <img :src="$store.state.user.userIcon" class="userIcon mt-2">
     </v-toolbar-title>
     <v-toolbar-title class="ml-4">
       Port
     </v-toolbar-title>
 
     <v-spacer />
-      <AddPost v-if ="$store.state.user.userName.length" /> 
+      <AddPost v-if ="$store.state.user.userName" /> 
       <Login v-else />
   </v-app-bar>
 </template>

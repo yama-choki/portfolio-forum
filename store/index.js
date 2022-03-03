@@ -5,8 +5,8 @@ const postsRef = db.collection("posts");
 const usersRef = db.collection("users");
 
 export const state = () => ({
-  user: { userUid: '', userName: '', userPhotoURL: '', snsUrl: ''}, 
-  accountUser:{},
+  user: {}, 
+  accountPageUser:{},
   posts: []
 })
 
@@ -79,18 +79,25 @@ export const actions = {
       console.log('error : ' + errorCode)
     })
   },
-  loginTwitter ({ commit }) {
+  loginTwitter ({ dispatch ,state }) {
     console.log('Twitter login action')
     const provider = new firebase.auth.TwitterAuthProvider()
     firebase.auth().signInWithPopup(provider).then(function (result) {
       const user = result.user
+      const userUid = user.uid
       const twitterId = result.additionalUserInfo.username
-      commit('setUserUid', user.uid)
-      commit('setUserName', user.displayName)
-      commit('setUserPhotoURL', user.providerData[0].photoURL)
-      commit('setTwitterUrl', twitterId)
+      const snsAccount = 'https://twitter.com/' + twitterId
+      const isNewUser =  result.additionalUserInfo.isNewUser
       console.log('Twitter login success:' + user.uid + ' : ' + user.displayName)
       console.log(user)
+      if(isNewUser){
+        dispatch('submitUser', { user, snsAccount })
+        dispatch('getUser', userUid)
+        console.log('submitUser!!!!!!!!!!!!!!')
+      } else {
+        dispatch('getUser', userUid)
+        console.log('getUser!!!!!!!!!!!!!!')
+      }
     }).catch(function (error) {
       const errorCode = error.code
       console.log('error : ' + errorCode)
@@ -112,10 +119,40 @@ export const actions = {
   //     console.log('error : ' + errorCode)
   //   })
   // },
+  submitUser({}, {user, snsAccount}){
+    console.log('actions submitUser')
+    usersRef.add({
+      userUid: user.uid,
+      userName: user.displayName,
+      userIcon: user.providerData[0].photoURL,
+      userInfo: '',
+      snsAccount: snsAccount,
+      created: firebase.firestore.FieldValue.serverTimestamp()
+    })
+  },
+  getUser({commit}, userUid){
+    usersRef.where('userUid', '==', userUid).get().then((res) => {
+      const loginUser = []
+        res.forEach((x) => {
+        const data = x.data()
+        loginUser.push({
+          userUid: data.userUid,
+          userName: data.userName,
+          userIcon: data.userIcon,
+          userInfo: data.userInfo,
+          snsUrl: data.snsAccount,
+        })
+      })
+      commit('getUser', loginUser)
+    }).catch(function (error) {
+      const errorCode = error.code
+      console.log('error : ' + errorCode)
+    })
+  },
   submitPost({ dispatch }, post) {
     console.log('actions submitPost')
     console.log(post);
-    let OGPImage = ''
+    let OGPImage = '/images/NoImage.png'
     let OGPTitle = ''
     fetch(post.portfolioURL).then(res => res.text()).then(text => {
       const el = new DOMParser().parseFromString(text, "text/html")
@@ -142,10 +179,12 @@ export const actions = {
         good: []
       })
       .then(() => {
-        console.log('actions submitPost .then')
         console.log(this.post);
         dispatch("getPosts");
-      });
+      }).catch(function (error) {
+        const errorCode = error.code
+        console.log('error : ' + errorCode)
+      })
     })   
   },
   deletePost({ dispatch }, id) {
@@ -195,11 +234,8 @@ export const mutations = {
   getPosts(state, posts) {
     state.posts = posts;
   },
-  setNewUserName(state){
-    state.user.userName = '新しいユーザー'
-  },
-  setNewUserIcon(state){
-    state.user.userPhotoURL = '../static/images/NoImage.png'
+  getUser(state, loginUser){
+    state.user = loginUser[0]
   }
 }
 

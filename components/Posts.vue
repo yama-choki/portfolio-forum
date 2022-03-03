@@ -14,11 +14,11 @@
             </div>
             <div class="postMain">
               <div class="postLeft">
-                <img :src="post.postUser.userPhotoURL" alt="" class="userIcon"
+                <img :src="post.postUser.userIcon" alt="" class="userIcon"
                 >
               </div>
               <div class="postCenter">
-                <a :href="post.postUser.snsUrl"> 
+                <a :href="post.postUser.snsAccount"> 
                   <p class="userName">{{ post.postUser.userName }}</p>
                 </a>
                 <p class="postText">{{ post.text }}</p>
@@ -57,7 +57,7 @@
     </ul>
     <p>{{ $store.state.user }}</p>
     <hr>
-    <p>{{ $store.state.posts[0]}}</p>
+    <p>{{ $store.state.posts[0] }}</p>
   </div>
 </template>
 
