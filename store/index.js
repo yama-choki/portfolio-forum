@@ -32,16 +32,22 @@ export const actions = {
       commit("getPosts", posts);
     });
   },
-  emailEntry({ commit }, {email, password}){
+  emailEntry({dispatch }, {email, password}){
     console.log(email)
     console.log(password)
     firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const user = userCredential.user;
-      console.log(user)
-      commit('setUserUid', user.uid)
-      commit('setNewUserName')
-      commit('setNewUserIcon')
+      const userUid = user.uid
+      const newUser = {
+        userUid: user.uid,
+        userName: '新しいユーザー',
+        userIcon: '/images/newUserIcon.png',
+        snsAccount: ''
+      }
+      console.log(newUser)
+      dispatch('submitUser', newUser)
+      dispatch('getUser', userUid)
     })
     .catch((error) => {
       const errorCode = error.code;
@@ -50,12 +56,13 @@ export const actions = {
       console.log('error message :' + errorMessage)
     });
   },
-  loginEmail ({ commit }, {email, password}) {
+  loginEmail ({ dispatch }, {email, password}) {
     firebase.auth().signInWithEmailAndPassword(email, password)
   .then((userCredential) => {
     const user = userCredential.user;
+    const userUid = user.uid
     console.log(user)
-    commit('setUserUid', user.uid)
+    dispatch('getUser', userUid)
   })
   .catch((error) => {
     const errorCode = error.code;
@@ -71,13 +78,18 @@ export const actions = {
       const user = result.user
       const metadata = user.metadata
       const userUid = user.uid
-      const snsAccount = ''
+      const newUser = {
+        userUid: user.uid,
+        userName: user.displayName,
+        userIcon: user.providerData[0].photoURL,
+        snsAccount :''
+      }
       console.log(user.providerData[0].photoURL)
       console.log(metadata.creationTime)
       console.log(metadata.lastSignInTime)
       if(metadata.creationTime === metadata.lastSignInTime){
         console.log('submitUser!!!!!!!!!!!!!!')
-        dispatch('submitUser', { user, snsAccount })
+        dispatch('submitUser', newUser)
         dispatch('getUser', userUid)
       } else {
         console.log('getUser!!!!!!!!!!!!!!')
@@ -96,11 +108,17 @@ export const actions = {
       const userUid = user.uid
       const twitterId = result.additionalUserInfo.username
       const snsAccount = 'https://twitter.com/' + twitterId
-      const isNewUser =  result.additionalUserInfo.isNewUser
+      const isFirstLogin =  result.additionalUserInfo.isNewUser
+      const newUser = {
+        userUid: user.uid,
+        userName: user.displayName,
+        userIcon: user.providerData[0].photoURL,
+        snsAccount: 'https://twitter.com/' + twitterId
+      }
       console.log('Twitter login success:' + user.uid + ' : ' + user.displayName)
       console.log(user)
-      if(isNewUser){
-        dispatch('submitUser', { user, snsAccount })
+      if(isFirstLogin){
+        dispatch('submitUser', newUser)
         dispatch('getUser', userUid)
         console.log('submitUser!!!!!!!!!!!!!!')
       } else {
@@ -128,18 +146,18 @@ export const actions = {
   //     console.log('error : ' + errorCode)
   //   })
   // },
-  submitUser({}, {user, snsAccount}){
+  submitUser({}, newUser){
     console.log('actions submitUser')
-    console.log(user)
-    console.log(snsAccount)
+    console.log('確認',newUser)
     usersRef.add({
-      userUid: user.uid,
-      userName: user.displayName,
-      userIcon: user.providerData[0].photoURL,
+      userUid: newUser.userUid,
+      userName: newUser.userName,
+      userIcon: newUser.userIcon,
       userInfo: '',
-      snsAccount: snsAccount,
+      snsAccount: newUser.snsAccount,
       created: firebase.firestore.FieldValue.serverTimestamp()
     })
+    console.log('確認', newUser)
   },
   getUser({commit}, userUid){
     console.log('submitUser!!!!!!!!!!!!!!')
