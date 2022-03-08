@@ -247,23 +247,6 @@ export const actions = {
 };
 
 export const mutations = {
-  setUserUid (state, userUid) {
-    console.log('確認　　　commit setUserUid', userUid)
-    state.user.userUid = userUid
-    console.log(state.user.userUid)
-  },
-  setTwitterUrl (state, twitterId) {
-    const twitterUrl = 'https://twitter.com/' + twitterId
-    console.log(twitterUrl)
-    state.user.snsUrl = twitterUrl
-  },
-  setUserName (state, userName) {
-    state.user.userName = userName
-  },
-  setUserPhotoURL(state, photoURL){
-    state.user.userIcon = photoURL
-    console.log(state.user.userPhotoURL)
-  },
   getPosts(state, posts) {
     state.posts = posts;
   },
