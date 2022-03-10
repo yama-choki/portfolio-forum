@@ -34,10 +34,10 @@
               </div>
               <!-- <div class="postRight"></div> -->
             </div>
-            <div class="postBottom" v-if="$store.state.user.userUid">
+            <div class="postBottom" v-if="$store.state.login.user.userUid">
               <v-spacer />
               <div class="like">
-                <v-btn icon color="pink" @click="goodPost(index)" v-if="post.good.includes($store.state.user.userUid)">
+                <v-btn icon color="pink" @click="goodPost(index)" v-if="post.good.includes($store.state.login.user.userUid)">
                   <v-icon>mdi-heart</v-icon>
                 </v-btn>
                 <v-btn icon @click="goodPost(index)" v-else>
@@ -46,18 +46,18 @@
                 <span>{{post.good.length}}</span>
               </div>
               <v-spacer />
-              <v-btn icon @click="deletePost(index)" v-if="$store.state.user.userUid === post.postUser.userUid ">
+              <v-btn icon @click="deletePost(index)" v-if="$store.state.login.user.userUid === post.postUser.userUid ">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
-              <v-spacer v-if="$store.state.user.userUid === post.postUser.userUid"/>
+              <v-spacer v-if="$store.state.login.user.userUid === post.postUser.userUid"/>
             </div>
           </v-card>
         </v-col>
       </li>
     </ul>
-    <p>{{ $store.state.user }}</p>
+    <p>{{ $store.state.login.user }}</p>
     <hr>
-    <p>{{ $store.state.posts[0] }}</p>
+    <p>{{ $store.state.post.posts[0] }}</p>
   </div>
 </template>
 
@@ -69,7 +69,7 @@ export default {
   },
   computed: {
     posts () {
-      return this.$store.getters.posts
+      return this.$store.getters['post/posts']
     }
   },
   filters: {
@@ -79,16 +79,16 @@ export default {
   },
   methods: {
     getPosts() {
-      this.$store.dispatch("getPosts");
+      this.$store.dispatch("post/getPosts");
     },
     deletePost(index){
-      this.$store.dispatch('deletePost', this.posts[index].id)
+      this.$store.dispatch('post/deletePost', this.posts[index].id)
       console.log(this.posts[index].id)
       console.log(index)
     },
     goodPost (index) {
       console.log('good')
-      this.$store.dispatch('goodPost', index)
+      this.$store.dispatch('post/goodPost', index)
     }
   }
 }

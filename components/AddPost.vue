@@ -78,8 +78,8 @@ export default {
   methods: {
     submitPost() {
       if (this.post) {
-        this.post.user = this.$store.state.user
-        this.$store.dispatch("submitPost", this.post);
+        this.post.user = this.$store.state.login.user
+        this.$store.dispatch("post/submitPost", this.post);
       }
     },
   },

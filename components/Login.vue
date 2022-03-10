@@ -54,27 +54,27 @@ export default {
       console.log(this.email)
       console.log(this.password)
       console.log('Email Entry')
-      this.$store.dispatch('emailEntry', { email: this.email, password: this.password })
+      this.$store.dispatch('login/emailEntry', { email: this.email, password: this.password })
       this.loginDialog = false
     },
     loginEmail(){
       console.log('Email login')
-      this.$store.dispatch('loginEmail', { email: this.email, password: this.password })
+      this.$store.dispatch('login/loginEmail', { email: this.email, password: this.password })
       this.loginDialog = false
     },
     loginGoogle () {
       console.log('Google login')
-      this.$store.dispatch('loginGoogle')
+      this.$store.dispatch('login/loginGoogle')
       this.loginDialog = false
     },
     loginTwitter () {
       console.log('Twitter login')
-      this.$store.dispatch('loginTwitter')
+      this.$store.dispatch('login/loginTwitter')
       this.loginDialog = false
     },
     loginFacebook() {
       console.log('Facebook login')
-      this.$store.dispatch('loginFacebook')
+      this.$store.dispatch('login/loginFacebook')
       this.loginDialog = false
     },
   }
