@@ -6,7 +6,9 @@
     app
   >
     <v-toolbar-title v-if="$store.state.login.user.userIcon">
-      <img :src="$store.state.login.user.userIcon" class="userIcon mt-2">
+      <v-btn icon  @click="transition()">
+        <v-img :src="$store.state.login.user.userIcon" class="userIcon"></v-img>
+      </v-btn>
     </v-toolbar-title>
     <v-toolbar-title class="ml-4">
       Port
@@ -20,7 +22,17 @@
 
 <script>
 export default {
-  
+  computed :{
+    user () {
+      return this.$store.getters['login/user']
+    }
+  },
+  methods: {
+    transition() {
+      this.$router.push({ name: 'profile-id', params: { id : this.user.userUid } })
+    },
+  }
+
 }
 </script>
 

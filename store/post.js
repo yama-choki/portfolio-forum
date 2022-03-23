@@ -72,11 +72,12 @@ export const actions = {
     postsRef.doc(id).delete()
     dispatch('getPosts')
   },
-  goodPost( {state, dispatch}, index){
+  goodPost( {state, dispatch, rootState}, index){
     const post = state.posts[index]
     const updatedGood = post.good.slice()
     const id = post.id
-    const userUid = state.user.userUid
+    const userUid = rootState.login.user.userUid
+    console.log(userUid)
     console.log(updatedGood)
     if(updatedGood.includes(userUid)){
       console.log('true  IDあり good取り消し')
@@ -106,4 +107,7 @@ export const getters = {
   posts: (state) => {
     return state.posts;
   },
+  userUid: () => {
+    return $store.login.state.user.userUid
+  }
 };

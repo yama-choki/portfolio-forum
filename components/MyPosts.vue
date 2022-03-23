@@ -1,7 +1,7 @@
 <template>
-  <div id="posts">
+  <div id="myPosts">
     <ul>
-      <li v-for="(post, index) in posts" :key="post.id">
+      <li v-for="(post, index) in myPosts" :key="post.id">
         <v-col class="pa-1">
           <v-card class="pb-3">
 
@@ -13,7 +13,7 @@
 
             <div class="user">
               <v-col cols="2" class="pr-0">
-                <v-btn icon @click="transition(index)">
+                <v-btn icon>
                   <img :src="post.postUser.userIcon">
                 </v-btn>
               </v-col>
@@ -63,46 +63,67 @@
 
 <script>
 import moment from 'moment'
+
+import firebase from '~/plugins/firebase'
+const db = firebase.firestore()
+const postsRef = db.collection("posts");
+
 export default {
   async created () {
-    await this.getPosts()
+    await this.getMyPosts()
   },
-  computed: {
-    posts () {
-      return this.$store.getters['post/posts']
-    }
-  },
+    data () {
+      return {
+        id: this.$route.params.id,
+        myPosts:[],
+      }
+    },
   filters: {
     dateFilter: function(date){
       return moment(date).format('YYYY年MM月DD日 HH:mm')
     }
   },
-  methods: {
-    getPosts() {
-      this.$store.dispatch("post/getPosts");
-    },
-    deletePost(index){
-      this.$store.dispatch('post/deletePost', this.posts[index].id)
-      console.log('投稿の削除')
+  methods:{
+    getMyPosts(){
+      console.log('自分の投稿を取得')
+      postsRef.where('postUser.userUid', '==', this.id).orderBy('created', 'desc').get().then((res) => {
+        const posts = [];
+        res.forEach((post) => {
+          const data = post.data();
+          posts.push({
+            good: data.good,
+            text: data.text,
+            portfolioURL: data.portfolioURL,
+            category: data.category,
+            postUser: data.postUser,
+            created: data.created,
+            id: post.id,
+            OGPImage:data.OGPImage,
+            OGPTitle:data.OGPTitle,
+          });
+        });
+        this.myPosts = posts
+      });
     },
     goodPost (index) {
-      console.log('good')
+      console.log('いいね機能')
       this.$store.dispatch('post/goodPost', index)
     },
-    transition(index) {
-      const userUid = this.posts[index].postUser.userUid
-      this.$router.push({ name: 'profile-id', params: { id : userUid } })
+    deletePost(index){
+      console.log('投稿の削除')
+      this.$store.dispatch('post/deletePost', this.myPosts[index].id)
+      this.getMyPosts()
     },
   }
 }
 </script>
 
 <style scoped>
-#posts{
-  margin: 0 auto;
+#myPosts{
+  margin: 224px auto 0 auto;
 }
 
-#posts ul {
+#myPosts ul {
   list-style: none;
   padding: 0;
 }
@@ -146,5 +167,4 @@ export default {
 .functions{
   display: flex;
 }
-
 </style>

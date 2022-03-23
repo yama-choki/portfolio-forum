@@ -130,7 +130,6 @@ export const actions = {
       userUid: newUser.userUid,
       userName: newUser.userName,
       userIcon: newUser.userIcon,
-      userInfo: '',
       snsAccount: newUser.snsAccount,
       created: firebase.firestore.FieldValue.serverTimestamp()
     })
@@ -147,7 +146,6 @@ export const actions = {
           userUid: data.userUid,
           userName: data.userName,
           userIcon: data.userIcon,
-          userInfo: data.userInfo,
           snsUrl: data.snsAccount,
         })
       })
@@ -156,11 +154,17 @@ export const actions = {
       const errorCode = error.code
       console.log('error : ' + errorCode)
     })
-  },  
+  },
 };
 
 export const mutations = {
   getUser(state, loginUser){
     state.user = loginUser[0]
+  }
+}
+
+export const getters = {
+  user(state){
+    return state.user
   }
 }
