@@ -62,7 +62,6 @@ export default {}
 
 main{
   margin: 0 auto;
-  margin-top: 64px;
 }
 
 header{

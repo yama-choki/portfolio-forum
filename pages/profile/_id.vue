@@ -35,9 +35,7 @@
             <v-icon color="00acee">mdi-twitter</v-icon>
           </v-btn>
 
-          <v-btn icon >
-            <v-icon color="00acee">mdi-cog-outline</v-icon>
-          </v-btn>
+          <UpdateProfile />
 
           <v-btn icon >
             <v-icon>mdi-logout</v-icon>

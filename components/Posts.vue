@@ -2,8 +2,8 @@
   <div id="posts">
     <ul>
       <li v-for="(post, index) in posts" :key="post.id">
-        <v-col class="pa-1">
-          <v-card class="pb-3">
+        <v-col>
+          <v-card class="pb-4">
 
             <div class="postTop mx-1 mt-1">
               {{post.category}}
@@ -100,6 +100,7 @@ export default {
 <style scoped>
 #posts{
   margin: 0 auto;
+  margin-top: 64px;
 }
 
 #posts ul {
