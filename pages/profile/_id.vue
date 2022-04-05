@@ -16,11 +16,11 @@
           <template v-slot:img="{ props }">
             <v-img
               v-bind="props"
-              gradient="to top right, rgba(100,115,201,.7), rgba(25,32,72,.7)"
+              gradient="to top right, #00CCCC, rgba(25,32,72,.7)"
             ></v-img>
           </template>
 
-          <v-btn icon>
+          <v-btn icon to="/">
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
 
@@ -31,17 +31,11 @@
 
           <v-spacer />
 
-          <v-btn icon v-if="user.snsAccount" :href="user.snsAccount">
+          <v-btn icon v-if="user.snsAccount" :href="user.snsAccount" target=”_blank”>
             <v-icon color="00acee">mdi-twitter</v-icon>
           </v-btn>
 
-          <v-btn icon >
-            <v-icon color="00acee">mdi-cog-outline</v-icon>
-          </v-btn>
-
-          <v-btn icon >
-            <v-icon>mdi-logout</v-icon>
-          </v-btn>
+          <UpdateProfile @getUser="getUser()"/>
 
           <template v-slot:extension>
             <v-tabs align-with-title>
@@ -104,7 +98,7 @@ const usersRef = db.collection("users")
 
 export default {
   async created () {
-    await this.getuser()
+    await this.getUser()
   },
   data () {
     return {
@@ -114,8 +108,7 @@ export default {
     }
   },
   methods:{
-    getuser(){
-      console.log('created getUser')
+    getUser(){
       console.log(this.id)
       usersRef.where('userUid', '==', this.id).get().then((res) => {
         console.log(res)
