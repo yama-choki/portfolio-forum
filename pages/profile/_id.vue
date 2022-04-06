@@ -35,7 +35,7 @@
             <v-icon color="00acee">mdi-twitter</v-icon>
           </v-btn>
 
-          <UpdateProfile @getUser="getUser()"/>
+          <UpdateProfile @getUser="getUser()" :user="user"/>
 
           <template v-slot:extension>
             <v-tabs align-with-title>

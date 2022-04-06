@@ -81,13 +81,13 @@ const db = firebase.firestore()
 const usersRef = db.collection("users")
 
 export default {
+  props:['user'],
   async created () {
     await this.getUser()
   },
   data() {
     return {
       updateProfileDialog: false,
-      user: {},
       docId: '',
       id: this.$route.params.id,
       newUserIcon:''
@@ -98,7 +98,6 @@ export default {
       console.log(this.id)
       usersRef.where('userUid', '==', this.id).get().then((res) => {
         res.forEach((x) => {
-          this.user = x.data()
           this.docId = x.id
         })
       }).catch(function (error) {
