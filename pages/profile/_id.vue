@@ -20,7 +20,7 @@
             ></v-img>
           </template>
 
-          <v-btn icon>
+          <v-btn icon to="/">
             <v-icon>mdi-arrow-left</v-icon>
           </v-btn>
 
