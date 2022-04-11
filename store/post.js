@@ -21,9 +21,8 @@ export const actions = {
           category: data.category,
           postUser: data.postUser,
           created: data.created,
+          title: data.title,
           id: post.id,
-          OGPImage:data.OGPImage,
-          OGPTitle:data.OGPTitle,
         });
       });
       console.log(posts);
@@ -33,40 +32,22 @@ export const actions = {
   submitPost({ dispatch }, post) {
     console.log('actions submitPost')
     console.log(post);
-    let OGPImage = '/images/NoImage.png'
-    let OGPTitle = ''
-    fetch(post.portfolioURL).then(res => res.text()).then(text => {
-      const el = new DOMParser().parseFromString(text, "text/html")
-      const headEls = (el.head.children)
-      Array.from(headEls).map(v => {
-          const prop = v.getAttribute('property')
-          if (!prop) return;
-          console.log(prop, v.getAttribute("content"))
-          if (prop === 'og:title') {
-            OGPTitle = v.getAttribute("content")
-          } else if (prop === 'og:image') {
-            OGPImage = v.getAttribute("content")
-          }
-      })
-  }).then(() => {
-      postsRef.add({
-        text: post.text,
-        portfolioURL: post.portfolioURL,
-        category: post.category,
-        created: firebase.firestore.FieldValue.serverTimestamp(),
-        postUser: post.user,
-        OGPImage: OGPImage,
-        OGPTitle: OGPTitle,
-        good: []
-      })
-      .then(() => {
-        console.log(this.post);
-        dispatch("getPosts");
-      }).catch(function (error) {
-        const errorCode = error.code
-        console.log('error : ' + errorCode)
-      })
-    })   
+    postsRef.add({
+      text: post.text,
+      portfolioURL: post.portfolioURL,
+      category: post.category,
+      created: firebase.firestore.FieldValue.serverTimestamp(),
+      postUser: post.user,
+      title: post.title,
+      good: []
+    })
+    .then(() => {
+      console.log(this.post);
+      dispatch("getPosts");
+    }).catch(function (error) {
+      const errorCode = error.code
+      console.log('error : ' + errorCode)
+    }) 
   },
   deletePost({ dispatch }, id) {
     postsRef.doc(id).delete()

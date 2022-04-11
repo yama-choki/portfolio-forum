@@ -27,6 +27,9 @@
             <v-container>
               <v-row>
                 <v-col cols="12" sm="12" md="12">
+                  <v-text-field  v-model="post.title" label="ポートフォリオのタイトル"></v-text-field>
+                </v-col>
+                <v-col cols="12" sm="12" md="12">
                   <v-textarea
                     v-model="post.text"
                     label="ポートフォリオの説明"
@@ -72,6 +75,7 @@ export default {
         category: "",
         created: "",
         user: {},
+        title:'',
       },
     };
   },
