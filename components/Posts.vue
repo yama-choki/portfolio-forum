@@ -1,25 +1,23 @@
 <template>
-  <div id="posts">
+  <div id="posts" class="mt-16">
     <ul>
       <li v-for="(post, index) in posts" :key="post.id">
         <v-col class="pa-1">
           <v-card class="pb-3">
 
-            <div class="postTop mx-1 mt-1">
+            <div class="postTop mx-2 mt-1">
               {{post.category}}
               <v-spacer />
               {{ post.created.toDate() | dateFilter}}
             </div>
 
-            <div class="user">
-              <v-col cols="2" class="pr-0">
+            <div class="user ma-3">
                 <v-btn icon @click="transition(index)">
                   <img :src="post.postUser.userIcon">
                 </v-btn>
-              </v-col>
-              <v-col cols="10" class="pa-0 py-2">
-                {{post.postUser.userName}}
-              </v-col>
+                <p class="ml-3">
+                  {{post.postUser.userName}}
+                </p>
             </div>
 
             <div class="text mx-6">
@@ -28,10 +26,15 @@
               
             <div class="portFolio mx-auto mb-3">
               <a :href="post.portfolioURL">
-                <img :src="post.OGPImage" alt="">
-                <div class="link px-3">
-                  <p>{{post.portfolioURL}}</p>
-                  <p>{{post.OGPTitle}}</p>
+                <img src="/images/programming.png" alt="" v-if="post.category === 'Webアプリ'">
+                <img src="/images/webDesign.png" alt="" v-else-if="post.category === 'Webデザイン'">
+                <img src="/images/video_edit.jpg" alt="" v-else-if="post.category === '動画編集'">
+                <img src="/images/illustration.jpg" alt="" v-else-if="post.category === 'イラスト'">
+                <img src="/images/web_article.jpeg" alt="" v-else-if="post.category === '記事、ブログ'">
+                <img src="/images/NoImage.png" alt="" v-else-if="post.category === 'その他'">
+                <div class="portFolio-info">
+                  <p>{{post.title}}</p>
+                  <p>{{post.portfolioURL | urlFilter }}</p>
                 </div>
               </a>
             </div>
@@ -47,7 +50,13 @@
                 </v-btn>
                 <span>{{post.good.length}}</span>
               </div>
-              <v-spacer />
+              <v-spacer /> 
+                           
+              <v-btn icon @click="deletePost(index)" v-if="$store.state.login.user.userUid === post.postUser.userUid ">
+                <v-icon>mdi-pencil-plus</v-icon>
+              </v-btn>
+              <v-spacer v-if="$store.state.login.user.userUid === post.postUser.userUid"/>
+
               <v-btn icon @click="deletePost(index)" v-if="$store.state.login.user.userUid === post.postUser.userUid ">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
@@ -75,6 +84,14 @@ export default {
   filters: {
     dateFilter: function(date){
       return moment(date).format('YYYY年MM月DD日 HH:mm')
+    },
+    urlFilter: function(portfolioURL){
+      let substringUrl = portfolioURL.substring(0, 28)
+      return substringUrl + '...'
+    },
+    titleFilter: function(title){
+      let substringTitle = title.substring(0, 11)
+      return substringTitle + '...'
     }
   },
   methods: {
@@ -100,6 +117,8 @@ export default {
 <style scoped>
 #posts{
   margin: 0 auto;
+  width: 95vw;
+  max-width: 600px;
 }
 
 #posts ul {
@@ -131,20 +150,35 @@ export default {
 }
 
 .portFolio{
-  width: 90%;
-  border-radius: 16px;
+  border-radius: 4px;
   text-align: left;
   border: 2px #00CCCC solid;
+  display: flex;
+  width: 94%;
+}
+
+.portFolio a{
+  display:  flex;
 }
 
 .portFolio img{
-  width: 100%;
-  border-bottom: 2px #00CCCC solid;
-  border-radius: 16px 16px 0 0;
+  width: 96px;
 }
 
 .functions{
   display: flex;
+}
+
+@media all and (min-width: 500px) {
+  #posts{
+    width: 70vw;
+  }
+}
+
+@media all and (min-width: 900px) {
+  #posts{
+    width: 70vw;
+  }
 }
 
 </style>

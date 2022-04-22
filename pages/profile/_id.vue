@@ -1,6 +1,6 @@
 <template>
-  <v-app>
-    <section id="profilePage">
+  <section id="profilePage">
+    <v-app>
       <header>
 
         <v-app-bar
@@ -45,50 +45,23 @@
           </template>
         </v-app-bar>
       </header>
-
-      <main>
-        <v-row>
-
-          <v-col
-            xs="0"
-            sm="0"
-            md="3"
-            class="leftAside my-0 py-0"
-            >
-            <v-container style="height:100vh; background-color:blue;"></v-container>
-          </v-col>
-
-          <v-col
-            xs="12"
-            sm="9"
-            md="6"
-            class="my-0 py-0">
-            <v-sheet
-              id="scrolling-techniques-3"
-              class="overflow-y-auto"
-            >
-              <v-container style="height: 100vh;">
-                <MyPosts v-show="show === 'myPosts'" />
-                <MyGoodPosts v-show="show === 'myGoodPosts'" />
-              </v-container>
-            </v-sheet>
-          </v-col>
-
-          <v-col
-            xs="0"
-            sm="3"
-            md="3"
-            class="rightAside my-0 py-0">
-            <v-container style="height:100vh; background-color:pink;">
-              <p style="margin-top:300px;">{{user}}</p>
+      <section id="container">
+        <aside class="leftAside my-0 py-0"></aside>
+        <main>
+          <v-sheet
+            id="scrolling-techniques-3"
+            class="overflow-y-auto"
+          >
+            <v-container style="height: 98.4vh;">
+              <MyPosts v-show="show === 'myPosts'" />
+              <MyGoodPosts v-show="show === 'myGoodPosts'" />
             </v-container>
-          </v-col>
-
-        </v-row>
-
-      </main>
-    </section>
-  </v-app>
+          </v-sheet>
+        </main>
+        <aside class="rightAside my-0 py-0"></aside>
+      </section>
+    </v-app>
+  </section>
 </template>
 
 <script>
@@ -132,6 +105,11 @@ export default {
 </script>
 
 <style scoped>
+#profilePage{
+  max-width: 1263px;
+  margin: 0 auto;
+}
+
 .profile{
   display: flex;
 }
@@ -145,17 +123,54 @@ export default {
   margin: 8px 16px;
 }
 
+#container{
+  display: flex;
+}
+
 main{
   max-width: 1263px;
   margin: 0 auto;
 }
 
-/* .leftAside{
+.leftAside{
   display: none;
+  background: blue;
 }
 
 .rightAside{
+  background: pink;
   display: none;
-} */
+}
+
+@media all and (min-width: 500px) {
+  .leftAside{
+    display: block;
+    height: 100vh;
+    width: 20vw;
+  }
+
+  main{
+    margin-right: 0;
+  }
+}
+
+
+@media all and (min-width: 900px) {
+  .leftAside{
+    display: block;
+    height: 100vh;
+    width: 25vw;
+  }
+
+  .rightAside{
+    display: block;
+    height: 100vh;
+    width: 25vw;
+  }
+
+  main{
+    margin-right: 0;
+  }
+}
 
 </style>
