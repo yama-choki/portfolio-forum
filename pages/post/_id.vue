@@ -132,7 +132,7 @@ export default {
   methods:{
     getPost(){
       console.log(this.id)
-      const id = this.id
+      // const id = this.id
       postsRef.get().then((res) => {
         console.log(res)
         res.forEach((x) => {
