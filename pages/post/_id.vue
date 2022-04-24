@@ -132,12 +132,11 @@ export default {
   methods:{
     getPost(){
       console.log(this.id)
-      // const id = this.id
+      const id = this.id
       postsRef.get().then((res) => {
         console.log(res)
         res.forEach((x) => {
           console.log(x.data())
-          console.log(x.id)
           if(this.id === x.id){
             this.post = x.data()
             console.log(this.post)
