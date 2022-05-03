@@ -31,16 +31,20 @@
           >
             <v-container style="height: 98.4vh;">
               {{post}}
-              <!-- <v-card class="pb-3">
+              <v-card class="pb-3">
                 <div class="postTop mx-2 mt-1">
                   {{post.category}}
                   <v-spacer />
-                  {{ post.created.toDate() | dateFilter}}
+                  <p v-if="post.created">
+                   {{ post.created.toDate() | dateFilter}}
+                  </p>
+                  <p v-else>Loading...</p>
                 </div>
 
                 <div class="user ma-3">
-                    <v-btn icon @click="profilePage(index)">
-                      <img :src="post.postUser.userIcon">
+                    <v-btn icon @click="profilePage(index)"
+                      v-if="post.postUser.userIcon">
+                      <img :src="post.postUser.userIcon" >
                     </v-btn>
                     <p class="ml-3">
                       {{post.postUser.userName}}
@@ -48,7 +52,7 @@
                 </div>
 
                 <div class="text mx-6">
-                  {{post.text}}
+                  <p>{{post.text}}</p>
                 </div>
                   
                 <div class="portFolio mx-auto mb-3">
@@ -89,7 +93,7 @@
                   </v-btn>
                   <v-spacer v-if="$store.state.login.user.userUid === post.postUser.userUid"/>
                 </div>
-              </v-card> -->
+              </v-card>
             </v-container>
           </v-sheet>
         </main>
@@ -100,54 +104,9 @@
 </template>
 
 <script>
-import firebase from '~/plugins/firebase'
-const db = firebase.firestore()
-const postsRef = db.collection("posts")
-
-import moment from 'moment'
 
 export default {
-  async created () {
-    await this.getPost()
-  },
-  filters: {
-    dateFilter: function(date){
-      return moment(date).format('YYYY年MM月DD日 HH:mm')
-    },
-    urlFilter: function(portfolioURL){
-      let substringUrl = portfolioURL.substring(0, 28)
-      return substringUrl + '...'
-    },
-    titleFilter: function(title){
-      let substringTitle = title.substring(0, 11)
-      return substringTitle + '...'
-    }
-  },
-  data () {
-    return {
-      post: '',
-      id: this.$route.params.id,
-    }
-  },
-  methods:{
-    getPost(){
-      console.log(this.id)
-      const id = this.id
-      postsRef.get().then((res) => {
-        console.log(res)
-        res.forEach((x) => {
-          console.log(x.data())
-          if(this.id === x.id){
-            this.post = x.data()
-            console.log(this.post)
-          }
-        })
-      }).catch(function (error) {
-        const errorCode = error.code
-        console.log('error : ' + errorCode)
-      })
-    },
-  }
+  
 }
 </script>
 

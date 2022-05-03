@@ -38,6 +38,7 @@
             </a>
           </div>
 
+
           <div class="functions mt-2" v-if="$store.state.login.user.userUid">
             <v-spacer />
             <div class="like" >
@@ -50,10 +51,9 @@
               <span>{{post.good.length}}</span>
             </div>
             <v-spacer /> 
+            
+            <UpdatePost v-if="$store.state.login.user.userUid === post.postUser.userUid" :post="post" @getPosts="getPosts()"/>
 
-            <v-btn icon @click="postPage(index)" v-if="$store.state.login.user.userUid === post.postUser.userUid ">
-              <v-icon>mdi-pencil-plus</v-icon>
-            </v-btn>
             <v-spacer v-if="$store.state.login.user.userUid === post.postUser.userUid"/>
 
             <v-btn icon @click="deletePost(index)" v-if="$store.state.login.user.userUid === post.postUser.userUid ">
@@ -94,6 +94,7 @@ export default {
   },
   methods: {
     getPosts() {
+      console.log('getPosts')
       this.$store.dispatch("post/getPosts");
     },
     deletePost(index){
