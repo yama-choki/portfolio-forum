@@ -45,31 +45,10 @@
                     </v-btn>
                   </div>
                 </v-col>
-                <v-col cols="12" sm="12">
-                  <form action="">
-                    <div class="update">
-                      <img :src="$store.state.login.user.userIcon" alt="" v-if="$store.state.login.user.userIcon">
-                      <v-file-input
-                        label="ユーザーアイコン"
-                        v-model="newUserIcon"
-                        
-                      />
-                      <v-btn
-                        color="blue darken-1"
-                        icon
-                        @click.prevent="(updateProfileDialog = false), updateUserIcon(newUserIcon)"
-                      >
-                        <v-icon>mdi-check-circle-outline</v-icon>                     
-                      </v-btn>
-                    </div>
-                  </form>
-                </v-col>
               </v-row>
             </v-container>
           </v-card-text>
         </form>
-        {{user}}
-        {{ newUserIcon }}
       </v-card>
     </v-dialog>
   </div>
@@ -120,19 +99,6 @@ export default {
       }).then(() => {
         this.$emit("getUser")
       })
-    },
-    updateUserIcon(){
-      const img = this.newUserIcon
-      //画像ファイルのURLを取得。
-      this.img_url = URL.createObjectURL(img);
-      //"files"は③で作成したフォルダ名
-      //Firebase storageに画像ファイルを送信。
-      const storageRef = ref(storage, "userIcons/" + file.name);
-
-      //Firebaseにデータを適切に送るために必要なコード
-      uploadBytes(storageRef, file).then((snapshot) => {
-        console.log("blobかfileをアップロード", snapshot);
-      });
     },
   }
 }

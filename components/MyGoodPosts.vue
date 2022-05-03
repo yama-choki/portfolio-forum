@@ -28,10 +28,15 @@
               
             <div class="portFolio mx-auto mb-3">
               <a :href="post.portfolioURL">
-                <img :src="post.OGPImage" alt="">
-                <div class="link">
-                  <p>{{post.portfolioURL}}</p>
-                  <p>{{post.OGPTitle}}</p>
+                <img src="/images/programming.png" alt="" v-if="post.category === 'Webアプリ'">
+                <img src="/images/webDesign.png" alt="" v-else-if="post.category === 'Webデザイン'">
+                <img src="/images/video_edit.jpg" alt="" v-else-if="post.category === '動画編集'">
+                <img src="/images/illustration.jpg" alt="" v-else-if="post.category === 'イラスト'">
+                <img src="/images/web_article.jpeg" alt="" v-else-if="post.category === '記事、ブログ'">
+                <img src="/images/NoImage.png" alt="" v-else-if="post.category === 'その他'">
+                <div class="portFolio-info">
+                  <p>{{post.title}}</p>
+                  <p>{{post.portfolioURL | urlFilter }}</p>
                 </div>
               </a>
             </div>
@@ -81,6 +86,14 @@ export default {
   filters: {
     dateFilter: function(date){
       return moment(date).format('YYYY年MM月DD日 HH:mm')
+    },
+    urlFilter: function(portfolioURL){
+      let substringUrl = portfolioURL.substring(0, 28)
+      return substringUrl + '...'
+    },
+    titleFilter: function(title){
+      let substringTitle = title.substring(0, 11)
+      return substringTitle + '...'
     }
   },
   methods:{
@@ -120,6 +133,8 @@ export default {
 <style scoped>
 #myGoodPosts{
   margin: 224px auto 0 auto;
+  width: 95vw;
+  max-width: 600px;
 }
 
 #myGoodPosts ul {
@@ -151,19 +166,34 @@ export default {
 }
 
 .portFolio{
-  width: 90%;
-  border-radius: 8px;
+  border-radius: 4px;
   text-align: left;
   border: 2px #00CCCC solid;
+  display: flex;
+  width: 94%;
+}
+
+.portFolio a{
+  display:  flex;
 }
 
 .portFolio img{
-  width: 100%;
-  border-bottom: 2px #00CCCC solid;
-  border-radius: 8px 8px 0 0;
+  width: 96px;
 }
 
 .functions{
   display: flex;
+}
+
+@media all and (min-width: 500px) {
+  #posts{
+    width: 70vw;
+  }
+}
+
+@media all and (min-width: 900px) {
+  #posts{
+    width: 70vw;
+  }
 }
 </style>

@@ -136,7 +136,6 @@ export const actions = {
     console.log('確認', newUser)
   },
   getUser({commit}, userUid){
-    console.log('submitUser!!!!!!!!!!!!!!')
     console.log(userUid)
     usersRef.where('userUid', '==', userUid).get().then((res) => {
       const loginUser = []
@@ -160,6 +159,9 @@ export const actions = {
 export const mutations = {
   getUser(state, loginUser){
     state.user = loginUser[0]
+  },
+  setUser(state, payload) {
+    console.log('setUser',payload)
   }
 }
 

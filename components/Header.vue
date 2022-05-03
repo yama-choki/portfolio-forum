@@ -32,7 +32,6 @@ export default {
       this.$router.push({ name: 'profile-id', params: { id : this.user.userUid } })
     },
   }
-
 }
 </script>
 
