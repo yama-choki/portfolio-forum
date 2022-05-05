@@ -117,10 +117,12 @@ export default {
 .userIcon{
   border-radius: 50%;
   border: 2px #00CCCC solid;
+  width: 54px;
 }
 
 .userName{
   margin: 8px 16px;
+  display: none;
 }
 
 #container{
@@ -149,6 +151,10 @@ main{
     width: 20vw;
   }
 
+  .userName{
+    display: block;
+  }
+
   main{
     margin-right: 0;
   }
@@ -167,6 +173,7 @@ main{
     height: 100vh;
     width: 25vw;
   }
+
 
   main{
     margin-right: 0;

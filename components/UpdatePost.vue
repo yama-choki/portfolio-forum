@@ -59,7 +59,6 @@
             </v-container>
           </v-card-text>
         </form>
-        {{post}}
       </v-card>
     </v-dialog>
   </div>
@@ -86,9 +85,7 @@ export default {
   methods: {
     updatePost() {
       const docId = this.post.id
-      const newPost = this.newPost
-      console.log(docId)     
-      console.log(newPost)     
+      const newPost = this.newPost 
       postsRef.doc(docId).update({
         title: newPost.title,
         text: newPost.text,

@@ -1,6 +1,6 @@
 <template>
   <div id="posts" class="mt-16">
-    <ul>
+    <ul class="mb-4">
       <li v-for="(post, index) in posts" :key="post.id">
         <v-card class="pb-3">
 
@@ -119,8 +119,8 @@ export default {
 
 <style scoped>
 #posts{
-  margin: 0 auto;
-  width: 95vw;
+  margin: 224px auto 0 auto;
+  width: 93vw;
   max-width: 600px;
 }
 

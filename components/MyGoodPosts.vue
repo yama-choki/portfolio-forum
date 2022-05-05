@@ -2,8 +2,8 @@
   <div id="myGoodPosts">
     <ul>
       <li v-for="(post, index) in myGoodPosts" :key="post.id">
-        <v-col>
-          <v-card class="pb-3 card">
+        <v-col class="pa-1">
+          <v-card class="pb-3">
 
             <div class="postTop mx-1 mt-1">
               {{post.category}}
@@ -109,9 +109,8 @@ export default {
             category: data.category,
             postUser: data.postUser,
             created: data.created,
+            title: data.title,
             id: post.id,
-            OGPImage:data.OGPImage,
-            OGPTitle:data.OGPTitle,
           });
         });
         this.myGoodPosts = posts
@@ -133,7 +132,7 @@ export default {
 <style scoped>
 #myGoodPosts{
   margin: 224px auto 0 auto;
-  width: 95vw;
+  width: 93vw;
   max-width: 600px;
 }
 

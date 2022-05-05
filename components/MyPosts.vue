@@ -53,6 +53,11 @@
                 <span>{{post.good.length}}</span>
               </div>
               <v-spacer />
+
+              <UpdatePost v-if="$store.state.login.user.userUid === post.postUser.userUid" :post="post" @getPosts="getPosts()"/>
+
+              <v-spacer v-if="$store.state.login.user.userUid === post.postUser.userUid"/>
+            
               <v-btn icon @click="deletePost(index)" v-if="$store.state.login.user.userUid === post.postUser.userUid ">
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
@@ -111,8 +116,7 @@ export default {
             postUser: data.postUser,
             created: data.created,
             id: post.id,
-            OGPImage:data.OGPImage,
-            OGPTitle:data.OGPTitle,
+            title: data.title
           });
         });
         this.myPosts = posts
@@ -134,7 +138,7 @@ export default {
 <style scoped>
 #myPosts{
   margin: 224px auto 0 auto;
-  width: 95vw;
+  width: 93vw;
   max-width: 600px;
 }
 
