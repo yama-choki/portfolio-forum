@@ -8,20 +8,52 @@
           </v-btn>
         </template>
 
-        <v-card>
-          <v-card-title class="text-h5 grey lighten-2"> ログイン </v-card-title>
+        <v-card >
+          <v-card-title class="grey lighten-2 px-4">ログイン/新規登録</v-card-title>
+          <v-tabs
+            background-color="#00CCCC"
+            center-active
+            dark
+          >
+            <v-spacer />
+            <v-tab @click="form = 'login'">ログイン</v-tab>
+            <v-spacer />
+            <v-tab @click="form = 'entry'">新規登録</v-tab>
+            <v-spacer />
+          </v-tabs>
 
-          <div class="container">
+          <div class="login-form pa-4" v-show="form === 'login'">
             <div>
-              <button @click="loginGoogle()">Google ログイン</button>
-              <button @click="loginTwitter()">Twitter ログイン</button>
-              <button @click="loginFacebook()">Facebook ログイン</button>
+              <v-btn @click="loginGoogle()" class="mb-4" style="width:100%;">                
+                <v-icon color="#00CCCC">mdi-google</v-icon>
+                Googleでログイン
+              </v-btn>
+              <v-btn @click="loginTwitter()" class="mb-4" style="width:100%;">
+                <v-icon color="#1DA1F2">mdi-twitter</v-icon>
+                Twitterでログイン
+              </v-btn>
             </div>
             <div>
-              <v-text-field  v-model="email" label="Email Address" type="email"></v-text-field>
-              <v-text-field  v-model="password" label="Password" type="password"></v-text-field>
-              <button @click="emailEntry()">Email 新規登録</button>
-              <button @click="loginEmail()">Email ログイン</button>
+              <v-text-field  v-model="email" label="メールアドレスを入力してください" type="email"></v-text-field>
+              <v-text-field  v-model="password" label="パスワードを入力してください" type="password"></v-text-field>
+              <v-btn @click="loginEmail()" style="width:100%;">
+                <v-icon color="pink accent-2">mdi-email-outline</v-icon>
+                メールアドレスでログイン
+              </v-btn>
+            </div>
+            
+          </div>
+
+          <div class="entry-form pa-4" v-show="form === 'entry'">
+            <div>
+              <v-text-field  v-model="entryEmail" label="メールアドレスを入力してください" type="email"></v-text-field>
+              <v-text-field  v-model="entryPassword" label="パスワードを入力してください" type="password"></v-text-field>
+              <v-text-field  v-model="entryPassword2" label="もう一度パスワードを入力してください" type="password"></v-text-field>
+
+              <v-btn @click="emailEntry()" style="width:100%;">
+                 <v-icon color="purple accent-2">mdi-card-account-mail-outline</v-icon>
+                メールアドレスで新規登録
+              </v-btn>
             </div>
             
           </div>
@@ -31,7 +63,7 @@
           <v-card-actions>
             <v-spacer />
             <v-btn color="primary" text @click="loginDialog = false">
-              I accept
+              キャンセル
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -45,15 +77,23 @@ export default {
   data () {
     return {
       loginDialog: false,
+      form:'login',
       email:'',
-      password:''
+      password:'',
+      entryEmail:'',
+      entryPassword: '',
+      entryPassword2: '',
+
     }
   },
   methods: {
     emailEntry(){
-      console.log(this.email)
-      console.log(this.password)
       console.log('Email Entry')
+      if(this.entryPassword === this.entryPassword2 && this.entryEmail){
+        this.$store.dispatch('login/loginEmail', { email: this.entryEmail, password: this.entryPassword })
+      } else {
+        alert('パスワードを入力しなおしてください')
+      }
       this.$store.dispatch('login/emailEntry', { email: this.email, password: this.password })
       this.loginDialog = false
     },
@@ -81,10 +121,9 @@ export default {
 };
 </script>
 
-<style>
-.container{
+<style scoped>
+.login-form{
   text-align: center;
-  display: flex;
   flex-direction: column;
 }
 </style>

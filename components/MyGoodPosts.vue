@@ -162,6 +162,7 @@ export default {
 
 .text{
   text-align: left;
+  white-space: pre-line;
 }
 
 .portFolio{

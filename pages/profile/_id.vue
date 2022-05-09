@@ -32,10 +32,12 @@
           <v-spacer />
 
           <v-btn icon v-if="user.snsAccount" :href="user.snsAccount" target=”_blank”>
-            <v-icon color="00acee">mdi-twitter</v-icon>
+            <v-icon>mdi-twitter</v-icon>
           </v-btn>
 
           <UpdateProfile @getUser="getUser()" :user="user"/>
+
+          <Logout v-if="user.userUid"/>
 
           <template v-slot:extension>
             <v-tabs align-with-title>

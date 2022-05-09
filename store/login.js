@@ -30,6 +30,9 @@ export const actions = {
     .catch((error) => {
       const errorCode = error.code;
       const errorMessage = error.message;
+      if(errorMessage === 'The email address is already in use by another account.'){
+        alert('そのメールアドレスは既に登録されています')
+      }
       console.log('error code :' + errorCode)
       console.log('error message :' + errorMessage)
     });
@@ -66,11 +69,9 @@ export const actions = {
       console.log(metadata.creationTime)
       console.log(metadata.lastSignInTime)
       if(metadata.creationTime === metadata.lastSignInTime){
-        console.log('submitUser!!!!!!!!!!!!!!')
         dispatch('submitUser', newUser)
         dispatch('getUser', userUid)
       } else {
-        console.log('getUser!!!!!!!!!!!!!!')
         await dispatch('getUser', userUid)
       }
     }).catch(function (error) {
@@ -123,6 +124,16 @@ export const actions = {
   //     console.log('error : ' + errorCode)
   //   })
   // },
+  logout({commit}){
+    console.log('actions logout を実行します')
+    firebase.auth().signOut().then(function() {
+      // Sign-out successful.
+      console.log('firebase signOutを実行した後')
+      commit('logout')
+    }).catch(function(error) {
+      // An error happened.
+    });
+  },
   submitUser({}, newUser){
     console.log('actions submitUser')
     console.log('確認',newUser)
@@ -162,6 +173,9 @@ export const mutations = {
   },
   setUser(state, payload) {
     console.log('setUser',payload)
+  },
+  logout(state){
+    state.user = ''
   }
 }
 

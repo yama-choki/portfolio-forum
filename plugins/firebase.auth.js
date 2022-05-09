@@ -5,9 +5,12 @@ export default (context) => {
 
     return new Promise((resolve, reject) => {
         auth().onAuthStateChanged(user => {
-            store.dispatch('login/getUser', user.uid)
             console.log(user)
-            resolve()
+            if(user){
+                store.dispatch('login/getUser', user.uid)
+                console.log(user)
+                resolve()
+            }
         })
     })
 }

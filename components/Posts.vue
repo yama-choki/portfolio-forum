@@ -32,7 +32,7 @@
               <img src="/images/web_article.jpeg" alt="" v-else-if="post.category === '記事、ブログ'">
               <img src="/images/NoImage.png" alt="" v-else-if="post.category === 'その他'">
               <div class="portFolio-info">
-                <p>{{post.title}}</p>
+                <p>{{post.title }}</p>
                 <p>{{post.portfolioURL | urlFilter }}</p>
               </div>
             </a>
@@ -88,8 +88,9 @@ export default {
       return substringUrl + '...'
     },
     titleFilter: function(title){
-      let substringTitle = title.substring(0, 11)
-      return substringTitle + '...'
+      // console.log('確認',title)
+      // let substringTitle = title.substring(0, 11)
+      // return substringTitle + '...'
     }
   },
   methods: {
@@ -150,6 +151,7 @@ export default {
 
 .text{
   text-align: left;
+  white-space: pre-line;
 }
 
 .portFolio{

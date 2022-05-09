@@ -53,7 +53,7 @@
                   />
                 </v-col>
                 <v-col cols="12" sm="12" md="12">
-                  <v-text-field  v-model="newPost.portfolioURL" label="ポートフォリオのURL"></v-text-field>
+                  <v-text-field  v-model="newPost.portfolioURL" label="ポートフォリオのURL" ></v-text-field>
                 </v-col>
               </v-row>
             </v-container>
