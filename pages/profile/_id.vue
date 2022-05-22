@@ -35,9 +35,9 @@
             <v-icon>mdi-twitter</v-icon>
           </v-btn>
 
-          <UpdateProfile @getUser="getUser()" :user="user"/>
+          <UpdateProfile @getUser="getUser()" :user="user" v-if="user.userUid === $store.state.login.user.userUid"/>
 
-          <Logout v-if="user.userUid"/>
+          <Logout v-if="user.userUid === $store.state.login.user.userUid"/>
 
           <template v-slot:extension>
             <v-tabs align-with-title>
@@ -84,11 +84,8 @@ export default {
   },
   methods:{
     getUser(){
-      console.log(this.id)
       usersRef.where('userUid', '==', this.id).get().then((res) => {
-        console.log(res)
         res.forEach((x) => {
-          console.log(x.data())
           this.user = x.data()
         })
       }).catch(function (error) {

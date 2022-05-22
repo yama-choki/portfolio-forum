@@ -25,13 +25,10 @@ export const actions = {
           id: post.id,
         });
       });
-      console.log(posts);
       commit("getPosts", posts);
     });
   },
   submitPost({ dispatch }, post) {
-    console.log('actions submitPost')
-    console.log(post);
     postsRef.add({
       text: post.text,
       portfolioURL: post.portfolioURL,
@@ -42,7 +39,6 @@ export const actions = {
       good: []
     })
     .then(() => {
-      console.log(this.post);
       dispatch("getPosts");
     }).catch(function (error) {
       const errorCode = error.code
@@ -58,17 +54,11 @@ export const actions = {
     const updatedGood = post.good.slice()
     const id = post.id
     const userUid = rootState.login.user.userUid
-    console.log(userUid)
-    console.log(updatedGood)
     if(updatedGood.includes(userUid)){
-      console.log('true  IDあり good取り消し')
       const updatedGoodIndex = updatedGood.indexOf(userUid)
       updatedGood.splice(updatedGoodIndex, 1)
-      console.log('結果:' + updatedGood)
     } else {
-      console.log('false  IDなし goodする')
       updatedGood.push(userUid)
-      console.log('結果:' + updatedGood)
     }
     postsRef.doc(id).update({
       good : updatedGood

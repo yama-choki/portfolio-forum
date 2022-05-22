@@ -22,14 +22,12 @@
         <v-card-actions>
           <v-spacer />
           <v-btn
-            text
             @click="dialog = false, logout()"
           >
             ログアウト
           </v-btn>
           <v-spacer />
           <v-btn
-            text
             @click="dialog = false"
           >
             キャンセル

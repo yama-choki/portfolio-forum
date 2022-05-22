@@ -28,14 +28,16 @@
               
             <div class="portFolio mx-auto mb-3">
               <a :href="post.portfolioURL">
-                <img src="/images/programming.png" alt="" v-if="post.category === 'Webアプリ'">
-                <img src="/images/webDesign.png" alt="" v-else-if="post.category === 'Webデザイン'">
-                <img src="/images/video_edit.jpg" alt="" v-else-if="post.category === '動画編集'">
-                <img src="/images/illustration.jpg" alt="" v-else-if="post.category === 'イラスト'">
-                <img src="/images/web_article.jpeg" alt="" v-else-if="post.category === '記事、ブログ'">
-                <img src="/images/NoImage.png" alt="" v-else-if="post.category === 'その他'">
+                <div class="images">
+                  <img src="/images/programming.png" alt="" v-if="post.category === 'Webアプリ'" class="webApp">
+                  <img src="/images/webDesign.png" alt="" v-else-if="post.category === 'Webデザイン'" class="webDesign">
+                  <img src="/images/video_edit.jpg" alt="" v-else-if="post.category === '動画編集'" class="videoEdit">
+                  <img src="/images/illustration.jpg" alt="" v-else-if="post.category === 'イラスト'" class="illust">
+                  <img src="/images/web_article.jpeg" alt="" v-else-if="post.category === '記事、ブログ'" class="article">
+                  <img src="/images/NoImage.png" alt="" v-else-if="post.category === 'その他'" class="noImage">
+                </div>
                 <div class="portFolio-info">
-                  <p>{{post.title}}</p>
+                  <p>{{post.title | titleFilter }}</p>
                   <p>{{post.portfolioURL | urlFilter }}</p>
                 </div>
               </a>
@@ -117,11 +119,9 @@ export default {
       });
     },
     goodPost (index) {
-      console.log('いいね機能')
       this.$store.dispatch('post/goodPost', index)
     },
     deletePost(index){
-      console.log('投稿の削除')
       this.$store.dispatch('post/deletePost', this.myGoodPosts[index].id)
       this.getMyPosts()
     },
@@ -177,8 +177,16 @@ export default {
   display:  flex;
 }
 
-.portFolio img{
-  width: 96px;
+.images{
+  width: 80px;
+  height: 80px;
+  align-items: center;
+}
+
+.images img {
+  width: 64px;
+  height: 64px;
+  margin: 8px;
 }
 
 .functions{

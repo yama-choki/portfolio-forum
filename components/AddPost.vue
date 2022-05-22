@@ -17,7 +17,7 @@
               <v-btn
                 color="blue darken-1"
                 text
-                @click.prevent="(postDialog = false), submitPost()"
+                @click.prevent="submitPost()"
               >
                 投稿する
               </v-btn>
@@ -34,7 +34,7 @@
                     v-model="post.text"
                     label="ポートフォリオの説明"
                     required
-                    counter="200"
+                    counter="150"
                   />
                 </v-col>
                 <v-col cols="12" sm="12">
@@ -70,20 +70,33 @@ export default {
     return {
       postDialog: false,
       post: {
+        title:'',
         text: "",
-        portfolioURL: "",
         category: "",
+        portfolioURL: "",
         created: "",
         user: {},
-        title:'',
       },
     };
   },
   methods: {
     submitPost() {
-      if (this.post) {
+      if( this.post.title === ""){
+        alert('タイトルを入力してください')
+      } else if(this.post.text.length >= 150){
+        alert('説明は150文字以内で入力してください')
+      } else if(this.post.category === ""){
+        alert('ポートフォリオの種類を入力してください')
+      } else if(this.post.portfolioURL === ""){
+        alert('ポートフォリオのURLを入力してください')
+      } else {
         this.post.user = this.$store.state.login.user
         this.$store.dispatch("post/submitPost", this.post);
+        this.postDialog = false
+        this.post.title = ''
+        this.post.text = ''
+        this.post.category = ''
+        this.post.portfolioURL = ''
       }
     },
   },

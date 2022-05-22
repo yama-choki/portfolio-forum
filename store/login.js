@@ -11,8 +11,6 @@ export const state = () => ({
 
 export const actions = {
   emailEntry({dispatch }, {email, password}){
-    console.log(email)
-    console.log(password)
     firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
       const user = userCredential.user;
@@ -23,7 +21,6 @@ export const actions = {
         userIcon: '/images/newUserIcon.png',
         snsAccount: ''
       }
-      console.log(newUser)
       dispatch('submitUser', newUser)
       dispatch('getUser', userUid)
     })
@@ -42,7 +39,6 @@ export const actions = {
   .then((userCredential) => {
     const user = userCredential.user;
     const userUid = user.uid
-    console.log(user)
     dispatch('getUser', userUid)
   })
   .catch((error) => {
@@ -53,7 +49,6 @@ export const actions = {
   });
   },
   loginGoogle ({ dispatch }) {
-    console.log('Google login action')
     const provider = new firebase.auth.GoogleAuthProvider()
     firebase.auth().signInWithPopup(provider).then(async function (result) {
       const user = result.user
@@ -65,9 +60,6 @@ export const actions = {
         userIcon: user.providerData[0].photoURL,
         snsAccount :''
       }
-      console.log(user.providerData[0].photoURL)
-      console.log(metadata.creationTime)
-      console.log(metadata.lastSignInTime)
       if(metadata.creationTime === metadata.lastSignInTime){
         dispatch('submitUser', newUser)
         dispatch('getUser', userUid)
@@ -80,7 +72,6 @@ export const actions = {
     })
   },
   loginTwitter ({ dispatch }) {
-    console.log('Twitter login action')
     const provider = new firebase.auth.TwitterAuthProvider()
     firebase.auth().signInWithPopup(provider).then(function (result) {
       const user = result.user
@@ -93,15 +84,11 @@ export const actions = {
         userIcon: user.providerData[0].photoURL,
         snsAccount: 'https://twitter.com/' + twitterId
       }
-      console.log('Twitter login success:' + user.uid + ' : ' + user.displayName)
-      console.log(user)
       if(isFirstLogin){
         dispatch('submitUser', newUser)
         dispatch('getUser', userUid)
-        console.log('submitUser!!!!!!!!!!!!!!')
       } else {
         dispatch('getUser', userUid)
-        console.log('getUser!!!!!!!!!!!!!!')
       }
     }).catch(function (error) {
       const errorCode = error.code
@@ -125,18 +112,14 @@ export const actions = {
   //   })
   // },
   logout({commit}){
-    console.log('actions logout を実行します')
     firebase.auth().signOut().then(function() {
       // Sign-out successful.
-      console.log('firebase signOutを実行した後')
       commit('logout')
     }).catch(function(error) {
       // An error happened.
     });
   },
   submitUser({}, newUser){
-    console.log('actions submitUser')
-    console.log('確認',newUser)
     usersRef.add({
       userUid: newUser.userUid,
       userName: newUser.userName,
@@ -144,10 +127,8 @@ export const actions = {
       snsAccount: newUser.snsAccount,
       created: firebase.firestore.FieldValue.serverTimestamp()
     })
-    console.log('確認', newUser)
   },
   getUser({commit}, userUid){
-    console.log(userUid)
     usersRef.where('userUid', '==', userUid).get().then((res) => {
       const loginUser = []
         res.forEach((x) => {
@@ -170,9 +151,6 @@ export const actions = {
 export const mutations = {
   getUser(state, loginUser){
     state.user = loginUser[0]
-  },
-  setUser(state, payload) {
-    console.log('setUser',payload)
   },
   logout(state){
     state.user = ''

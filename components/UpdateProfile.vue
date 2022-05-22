@@ -74,7 +74,6 @@ export default {
   },
   methods:{
     getUser(){
-      console.log(this.id)
       usersRef.where('userUid', '==', this.id).get().then((res) => {
         res.forEach((x) => {
           this.docId = x.id

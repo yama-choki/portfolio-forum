@@ -17,7 +17,7 @@
               <v-btn
                 color="blue darken-1"
                 text
-                @click.prevent="(updatePostDialog = false), updatePost()"
+                @click.prevent="updatePost()"
               >
                 投稿を更新する
               </v-btn>
@@ -34,7 +34,7 @@
                     v-model="newPost.text"
                     label="ポートフォリオの説明"
                     required
-                    counter="200"
+                    counter="150"
                   />
                 </v-col>
                 <v-col cols="12" sm="12">
@@ -84,17 +84,32 @@ export default {
   },
   methods: {
     updatePost() {
-      const docId = this.post.id
-      const newPost = this.newPost 
-      postsRef.doc(docId).update({
-        title: newPost.title,
-        text: newPost.text,
-        category: newPost.category,
-        portfolioUrl: newPost.portfolioUrl,
-      }).then(() => {
-        console.log('投稿を更新しました　getPostsを実行します')
-        this.$emit("getPosts")
-      })
+      if(this.newPost.title === ""){
+        alert('タイトルを入力してください')        
+      } else if(this.newPost.text.length >= 150){
+        alert('説明は150文字以内で入力してください')
+      } else if(this.newPost.category === ""){
+        alert('種類を入力してください')
+      } else if(this.newPost.portfolioURL === ""){
+        alert('URLを入力してください')
+      } else {
+        const docId = this.post.id
+        const newPost = this.newPost 
+        postsRef.doc(docId).update({
+          title: newPost.title,
+          text: newPost.text,
+          category: newPost.category,
+          portfolioUrl: newPost.portfolioUrl,
+        }).then(() => {
+          this.$emit("getPosts")
+          this.updatePostDialog = false
+          this.newPost.title = ''
+          this.newPost.text = ''
+          this.newPost.category = ''
+          this.newPost.portfolioUrl = ''
+        })
+      }
+      
     },
   },
 };

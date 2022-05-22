@@ -25,14 +25,16 @@
             
           <div class="portFolio mx-auto mb-3">
             <a :href="post.portfolioURL">
-              <img src="/images/programming.png" alt="" v-if="post.category === 'Webアプリ'">
-              <img src="/images/webDesign.png" alt="" v-else-if="post.category === 'Webデザイン'">
-              <img src="/images/video_edit.jpg" alt="" v-else-if="post.category === '動画編集'">
-              <img src="/images/illustration.jpg" alt="" v-else-if="post.category === 'イラスト'">
-              <img src="/images/web_article.jpeg" alt="" v-else-if="post.category === '記事、ブログ'">
-              <img src="/images/NoImage.png" alt="" v-else-if="post.category === 'その他'">
+              <div class="images">
+                <img src="/images/programming.png" alt="" v-if="post.category === 'Webアプリ'" class="webApp">
+                <img src="/images/webDesign.png" alt="" v-else-if="post.category === 'Webデザイン'" class="webDesign">
+                <img src="/images/video_edit.jpg" alt="" v-else-if="post.category === '動画編集'" class="videoEdit">
+                <img src="/images/illustration.jpg" alt="" v-else-if="post.category === 'イラスト'" class="illust">
+                <img src="/images/web_article.jpeg" alt="" v-else-if="post.category === '記事、ブログ'" class="article">
+                <img src="/images/NoImage.png" alt="" v-else-if="post.category === 'その他'" class="noImage">
+              </div>
               <div class="portFolio-info">
-                <p>{{post.title }}</p>
+                <p>{{post.title  | titleFilter}}</p>
                 <p>{{post.portfolioURL | urlFilter }}</p>
               </div>
             </a>
@@ -51,10 +53,6 @@
               <span>{{post.good.length}}</span>
             </div>
             <v-spacer /> 
-            
-            <UpdatePost v-if="$store.state.login.user.userUid === post.postUser.userUid" :post="post" @getPosts="getPosts()"/>
-
-            <v-spacer v-if="$store.state.login.user.userUid === post.postUser.userUid"/>
 
             <v-btn icon @click="deletePost(index)" v-if="$store.state.login.user.userUid === post.postUser.userUid ">
               <v-icon>mdi-delete</v-icon>
@@ -88,22 +86,22 @@ export default {
       return substringUrl + '...'
     },
     titleFilter: function(title){
-      // console.log('確認',title)
-      // let substringTitle = title.substring(0, 11)
-      // return substringTitle + '...'
+      if(title.length >= 13){
+        let substringTitle = title.substring(0, 13)
+        return substringTitle + '...'
+      } else {
+        return title
+      }
     }
   },
   methods: {
     getPosts() {
-      console.log('getPosts')
       this.$store.dispatch("post/getPosts");
     },
     deletePost(index){
       this.$store.dispatch('post/deletePost', this.posts[index].id)
-      console.log('投稿の削除')
     },
     goodPost (index) {
-      console.log('good')
       this.$store.dispatch('post/goodPost', index)
     },
     profilePage(index) {
@@ -164,10 +162,19 @@ export default {
 
 .portFolio a{
   display:  flex;
+  align-items: center;
 }
 
-.portFolio img{
-  width: 96px;
+.images{
+  width: 80px;
+  height: 80px;
+  align-items: center;
+}
+
+.images img {
+  width: 64px;
+  height: 64px;
+  margin: 8px;
 }
 
 .functions{

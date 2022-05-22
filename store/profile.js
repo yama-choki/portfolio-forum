@@ -9,11 +9,8 @@ export const state = () => ({
 
 export const actions = {
   getUser(){
-    console.log(this.id)
     usersRef.where('userUid', '==', this.id).get().then((res) => {
-      console.log(res)
       res.forEach((x) => {
-        console.log(x.data())
         this.user = x.data()
         this.docId = x.id
       })
