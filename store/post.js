@@ -49,8 +49,7 @@ export const actions = {
     postsRef.doc(id).delete()
     dispatch('getPosts')
   },
-  goodPost( {state, dispatch, rootState}, index){
-    const post = state.posts[index]
+  goodPost( {state, dispatch, rootState}, post){
     const updatedGood = post.good.slice()
     const id = post.id
     const userUid = rootState.login.user.userUid

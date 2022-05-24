@@ -119,7 +119,10 @@ export default {
       });
     },
     goodPost (index) {
-      this.$store.dispatch('post/goodPost', index)
+      const post =this.myGoodPosts[index]
+      this.$store.dispatch('post/goodPost', post).then(() => {
+        this.getGoodPosts()
+      })
     },
     deletePost(index){
       this.$store.dispatch('post/deletePost', this.myGoodPosts[index].id)

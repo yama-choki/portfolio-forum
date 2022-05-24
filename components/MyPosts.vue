@@ -37,7 +37,7 @@
                 <img src="/images/NoImage.png" alt="" v-else-if="post.category === 'その他'" class="noImage">
               </div>
                 <div class="portFolio-info">
-                  <p>{{post.title}}</p>
+                  <p>{{post.title | titleFilter }}</p>
                   <p>{{post.portfolioURL | urlFilter }}</p>
                 </div>
               </a>
@@ -124,7 +124,10 @@ export default {
       });
     },
     goodPost (index) {
-      this.$store.dispatch('post/goodPost', index)
+      const post = this.myPosts[index]
+      this.$store.dispatch('post/goodPost', post).then(() => {
+        this.getMyPosts()
+      })
     },
     deletePost(index){
       this.$store.dispatch('post/deletePost', this.myPosts[index].id)

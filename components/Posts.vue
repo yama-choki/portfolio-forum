@@ -102,7 +102,8 @@ export default {
       this.$store.dispatch('post/deletePost', this.posts[index].id)
     },
     goodPost (index) {
-      this.$store.dispatch('post/goodPost', index)
+      const post = this.posts[index]
+      this.$store.dispatch('post/goodPost', post)
     },
     profilePage(index) {
       const userUid = this.posts[index].postUser.userUid
