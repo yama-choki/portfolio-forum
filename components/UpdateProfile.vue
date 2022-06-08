@@ -10,7 +10,7 @@
         <form>
           <v-card-actions>
             <v-spacer />
-            <v-btn color="blue darken-1" text @click="updateProfileDialog = false">
+            <v-btn color="blue darken-1" text @click="updateProfileDialog = false, closeDialog()">
               閉じる
             </v-btn>
           </v-card-actions>
@@ -86,6 +86,7 @@ export default {
     updateUserName(){
       if(this.id === 'gestUserAccount'){
         alert('ゲストユーザーの名前は変更できません')
+        this.user.userName = 'ゲストユーザー'
       } else {
         const docId = this.docId
         usersRef.doc(docId).update({
@@ -97,6 +98,7 @@ export default {
     },
     updateSnsAccount(){
       if(this.id === 'gestUserAccount'){
+        this.user.snsAccount = ''
         alert('ゲストユーザーのTwitterアカウントの登録はできません')
       } else {
         const docId = this.docId
@@ -107,6 +109,12 @@ export default {
         })
       }
     },
+    closeDialog(){
+      if(this.id === 'getUserAccount'){
+        this.user.userName = 'ゲストユーザー'
+        this.user.snsAccount = ''
+      }
+    }
   }
 }
 </script>
