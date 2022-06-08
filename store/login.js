@@ -154,6 +154,12 @@ export const mutations = {
   },
   logout(state){
     state.user = ''
+  },
+  loginGest(state){
+    state.user.userUid = 'gestUserAccount'
+    state.user.userName = 'ゲストユーザー'
+    state.user.userIcon = '/images/newUserIcon.png'
+    console.log(state.user)
   }
 }
 

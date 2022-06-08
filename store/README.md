@@ -1,23 +1,41 @@
-# STORE
-ポートフォリオを投稿するサイトです
+##アプリケーション名
+「ポートフォリオフォーラム」
+
+##アプリケーション概要
+ポートフォリオを投稿・閲覧するサイトです
+
+##URL
+https://port-folio-forum-35dcc.firebaseapp.com/
+
+##使用技術
+-HTML&CSS
+-JavaScript
+-Vue.js
+-Vuetify
+-Nuxt.js
+-firebase
+
+##機能一覧
+-ユーザー登録
+-ログイン機能
+-ログインの常態化（ゲストユーザーに常態化機能はなし）
+-投稿機能
+-投稿のいいね機能
+-投稿の編集機能
+-投稿の削除機能
+-ユーザー情報の編集機能
+-ログアウト機能
+
+
+##利用方法
+
+
+##開発理由
 プログラミング学習を進める上で、ポートフォリオはどのようなモノを作ればよいのかという疑問を持ちました。
-インターネットで調べてみると、「CRUD機能のあるアプリ」というのが最低条件ことが分かりましたが、実際に他の人は
-　　・どのような技術を使い
-　　・どのような機能があって
-　　・どのくらいのデザインで
-　　・どのくらいのレベルのモノ
-を開発し、転職活動に成功しているのかがよくわかりませんでした。
-そこで、ポートフォリオを投稿するサイトを自分で作成することで、今後IT企業に転職される方の参考になるのではないかと思い開発しました。
-
-
-ログインはしなくても投稿を閲覧することは可能です
-
-
-**This directory is not required, you can delete it if you don't want to use it.**
-
-This directory contains your Vuex Store files.
-Vuex Store option is implemented in the Nuxt.js framework.
-
-Creating a file in this directory automatically activates the option in the framework.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/guide/vuex-store).
+インターネットで調べてみると、「CRUD機能のあるアプリ」というのが条件だと分かりましたが、実際に他の人は
+-どのような技術を使い
+-どのような機能があって
+-どのくらいのデザインで
+-どのくらいのレベルのモノ
+を開発しているのか疑問に感じました。
+そこで、ポートフォリオを投稿するサイトを開発することで、今後IT企業に転職される方の参考になるのではないかと思い開発しました。

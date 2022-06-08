@@ -108,8 +108,7 @@ export default {
           this.newPost.category = ''
           this.newPost.portfolioUrl = ''
         })
-      }
-      
+      }      
     },
   },
 };

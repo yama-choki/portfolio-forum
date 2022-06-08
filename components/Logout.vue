@@ -15,7 +15,7 @@
         </v-btn>
       </template>
       <v-card>
-        <v-card-title class="text-h5">
+        <v-card-title class="text-h5 grey lighten-2 px-4">
           ログアウトしますか？
         </v-card-title>
 

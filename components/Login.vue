@@ -36,9 +36,13 @@
             <div>
               <v-text-field  v-model="email" label="メールアドレスを入力してください" type="email"></v-text-field>
               <v-text-field  v-model="password" label="パスワードを入力してください" type="password"></v-text-field>
-              <v-btn @click="loginEmail()" style="width:100%;">
+              <v-btn @click="loginEmail()" style="width:100%;" class="mb-4">
                 <v-icon color="pink accent-2">mdi-email-outline</v-icon>
                 メールアドレスでログイン
+              </v-btn>
+              <v-btn @click="loginGest()" style="width:100%;">
+                <v-icon color="orange accent-4">mdi-account</v-icon>
+                匿名アカウントでログイン
               </v-btn>
             </div>
             
@@ -110,6 +114,10 @@ export default {
     },
     loginFacebook() {
       this.$store.dispatch('login/loginFacebook')
+      this.loginDialog = false
+    },
+    loginGest() {
+      this.$store.commit('login/loginGest')
       this.loginDialog = false
     },
   }

@@ -11,15 +11,13 @@
               {{ post.created.toDate() | dateFilter}}
             </div>
 
-            <div class="user">
-              <v-col cols="2" class="pr-0">
-                <v-btn icon>
-                  <img :src="post.postUser.userIcon">
-                </v-btn>
-              </v-col>
-              <v-col cols="10" class="pa-0 py-2">
+            <div class="user ma-3">
+              <v-btn icon>
+                <img :src="post.postUser.userIcon">
+              </v-btn>
+              <p class="ml-3">
                 {{post.postUser.userName}}
-              </v-col>
+              </p>
             </div>
 
             <div class="text mx-6">
@@ -27,7 +25,7 @@
             </div>
               
             <div class="portFolio mx-auto mb-3">
-              <a :href="post.portfolioURL">
+              <a :href="post.portfolioURL" target=”_blank”>
                 <div class="images">
                 <img src="/images/programming.png" alt="" v-if="post.category === 'Webアプリ'" class="webApp">
                 <img src="/images/webDesign.png" alt="" v-else-if="post.category === 'Webデザイン'" class="webDesign">
@@ -56,7 +54,7 @@
               </div>
               <v-spacer />
 
-              <UpdatePost v-if="$store.state.login.user.userUid === post.postUser.userUid" :post="post" @getMyPosts="getPosts()"/>
+              <UpdatePost v-if="$store.state.login.user.userUid === post.postUser.userUid" :post="post" @getPosts="getMyPosts()"/>
 
               <v-spacer v-if="$store.state.login.user.userUid === post.postUser.userUid"/>
             

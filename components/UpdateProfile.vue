@@ -84,20 +84,28 @@ export default {
       })
     },
     updateUserName(){
-      const docId = this.docId
-      usersRef.doc(docId).update({
-        userName: this.user.userName
-      }).then(() => {
-        this.$emit("getUser")
-      })
+      if(this.id === 'gestUserAccount'){
+        alert('ゲストユーザーの名前は変更できません')
+      } else {
+        const docId = this.docId
+        usersRef.doc(docId).update({
+          userName: this.user.userName
+        }).then(() => {
+          this.$emit("getUser")
+        })
+      } 
     },
     updateSnsAccount(){
-      const docId = this.docId
-      usersRef.doc(docId).update({
-        snsAccount: this.user.snsAccount
-      }).then(() => {
-        this.$emit("getUser")
-      })
+      if(this.id === 'gestUserAccount'){
+        alert('ゲストユーザーのTwitterアカウントの登録はできません')
+      } else {
+        const docId = this.docId
+        usersRef.doc(docId).update({
+          snsAccount: this.user.snsAccount
+        }).then(() => {
+          this.$emit("getUser")
+        })
+      }
     },
   }
 }

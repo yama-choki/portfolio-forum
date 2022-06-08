@@ -48,19 +48,19 @@
         </v-app-bar>
       </header>
       <section id="container">
-        <aside class="leftAside my-0 py-0"></aside>
+        <aside class="leftAside my-0 py-0 green accent-3"></aside>
         <main>
           <v-sheet
             id="scrolling-techniques-3"
             class="overflow-y-auto"
           >
-            <v-container style="height: 98.4vh;">
+            <v-container style="height: 98.3vh;">
               <MyPosts v-show="show === 'myPosts'" />
               <MyGoodPosts v-show="show === 'myGoodPosts'" />
             </v-container>
           </v-sheet>
         </main>
-        <aside class="rightAside my-0 py-0"></aside>
+        <aside class="rightAside my-0 py-0 lime accent-3"></aside>
       </section>
     </v-app>
   </section>
@@ -135,11 +135,9 @@ main{
 
 .leftAside{
   display: none;
-  background: blue;
 }
 
 .rightAside{
-  background: pink;
   display: none;
 }
 

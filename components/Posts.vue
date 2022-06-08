@@ -24,7 +24,7 @@
           </div>
             
           <div class="portFolio mx-auto mb-3">
-            <a :href="post.portfolioURL">
+            <a :href="post.portfolioURL" target=”_blank”>
               <div class="images">
                 <img src="/images/programming.png" alt="" v-if="post.category === 'Webアプリ'" class="webApp">
                 <img src="/images/webDesign.png" alt="" v-else-if="post.category === 'Webデザイン'" class="webDesign">
