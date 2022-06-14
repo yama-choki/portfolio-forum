@@ -1,6 +1,6 @@
 <template>
   <div id="myGoodPosts">
-    <ul>
+    <ul v-if="myGoodPosts.length">
       <li v-for="(post, index) in myGoodPosts" :key="post.id">
         <v-col class="pa-1">
           <v-card class="pb-3">
@@ -63,6 +63,9 @@
         </v-col>
       </li>
     </ul>
+    <div class="nothing" v-else>
+      <h2>いいねした投稿はありません。</h2>
+    </div>
   </div>
 </template>
 
@@ -192,6 +195,11 @@ export default {
 
 .functions{
   display: flex;
+}
+
+.nothing{
+  text-align: center;
+  color: #666666;
 }
 
 @media all and (min-width: 500px) {
